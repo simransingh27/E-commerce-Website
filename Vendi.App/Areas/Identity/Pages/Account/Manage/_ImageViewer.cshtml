@@ -1,0 +1,10 @@
+﻿@model string
+
+<link href="~/css/avatar.css" rel="stylesheet" />
+ 
+@if (!String.IsNullOrEmpty(Model))
+{
+    <img src=" @Model" alt=" @Model" />
+
+}
+

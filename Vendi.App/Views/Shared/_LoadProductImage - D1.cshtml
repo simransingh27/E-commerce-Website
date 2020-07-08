@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Vendi.Data.ProductImage>
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link href="~/css/ProductImageGallary/albery.css" rel="stylesheet" />
+
+
+
+
+
+
+    <div class="albery-container">
+
+        <div class="albery-wrapper">
+
+            @foreach (var item in Model)
+            {
+                <div class="albery-item" style="width:450px;height:450px;">
+                    <img src="@item.ImagePath" alt="@item.ProductId">
+                </div>
+            }
+
+
+
+        </div>
+
+        <div class="move-right">
+            <a href="#" id="rightArrow"></a>
+        </div>
+        <div class="move-left">
+            <a href="#" id="leftArrow"></a>
+        </div>
+
+    </div>
+    
+  
+ 
+
+
+
+
+
+
+
+ 
+<script src="~/js/ProductImageGallary/albery.js"></script>
+<script>
+    $(".albery-container").albery({
+        speed: 500,
+        imgWidth: 600,
+    });
+</script>

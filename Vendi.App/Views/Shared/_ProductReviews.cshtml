@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Vendi.Data.Review>
+@using Vendi.App.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+<h5> Customer Reviews</h5>
+<div >
+    @foreach (var item in Model)
+    {
+        var user = await UserManager.FindByIdAsync(item.UserId);
+        var fullname = user.FirstName + " " + user.LastName;
+    <p class="jumbotron" style="padding:15px;margin:10px;">
+        <span>
+            <span>@fullname</span><br />
+            <b>Rating: <span id=stars></span></b>
+            @{
+                var num = item.Rating;
+                for (var i = 0; i < num; i++)
+                {
+                    <i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>
+                }
+            }
+        </span> 
+        <span> In @item.CreateDate</span>
+        <br />
+        @item.Description
+    </p>
+    }
+</div>
+

@@ -1,0 +1,209 @@
+﻿@model Vendi.App.Models.ProductModelView
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<!------ Include the above in your HEAD tag ---------->
+
+ 
+<link href="~/css/ProductDetails.css" rel="stylesheet" />
+<link href="~/css/TagsCSS.css" rel="stylesheet" />
+
+
+<br>
+<div class="card border-0">
+    <div class="row">
+        <input asp-for="ProductId" type="text" value="@Model.ProductId"  hidden/>
+        <aside class="col-sm-4">
+            <!------ Include the Imagess from db. ---------->
+
+            <article class="gallery-wrap">
+                <div class="img-big-wrap">
+
+                    <partial name="_LoadProductImage" model="Model.Images" />
+
+                </div>
+
+                <!--
+                <div class="img-small-wrap">
+                    <div class="item-gallery"> <img src="https://via.placeholder.com/100x100"> </div>
+                    <div class="item-gallery"> <img src="https://via.placeholder.com/100x100"> </div>
+                    <div class="item-gallery"> <img src="https://via.placeholder.com/100x100"> </div>
+                    <div class="item-gallery"> <img src="https://via.placeholder.com/100x100"> </div>
+                </div>
+                    -->
+            </article>
+
+            Tags:
+            @{ string[] tages = Model.Tags.Split(',');
+                if (tages != null)
+                {
+                    <ul class="tags">
+                        @foreach (var tag in tages)
+                        {
+                            <li><a href="#" class="tag">@tag</a></li>}
+                    </ul>
+                }
+            }
+
+
+        </aside>
+        <aside class="col-sm-5">
+            <article class="card-body m-0 pt-0 pl-5">
+                <h3 class="title text-uppercase">@Model.ProductName</h3>
+
+                <!------ Include the static rating from db. ---------->
+
+                <div class="rating">
+                    <div class="stars">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="review-no ml-2">(41 reviews)</span>
+                    </div>
+                </div>
+                <br />
+                <!------ Optional. ---------->
+                <dl class="param param-feature">
+                    <dt>Condition</dt>
+                    <dd>
+                        @{
+                            var condition = Model.Condition;
+                            if (condition == 1)
+                            {
+                                <div>New</div>
+                            }
+                            else
+                            {
+                                <div>Used</div>
+                            }
+                        }
+                    </dd>
+                </dl>
+
+                <div class="mb-3 mt-3">
+                    @{
+                        var qty = Model.Quantity;
+                        if (qty == 0)
+                        {
+                            <span class="h7 text-danger">Out of stock.</span>
+                        }
+                        else
+                        {
+                            <span class="h7 text-success">@qty In stock.</span>
+                        }
+                    }
+
+                </div>
+                <div class="mb-3 mt-3">
+                    <span class="price-title">Price :</span>
+                    <span class="price color-price-waanbii">@Model.Price<sup>£</sup></span>
+                </div>
+                <dl class="item-property">
+                    <dt>Description</dt>
+                    <dd>
+                         
+                            @Model.Description
+                         
+                    </dd>
+                </dl>
+
+            </article>
+        </aside>
+        <aside class="col-sm-3">
+            <div class="row">
+                <dl class="param param-inline">
+                    <dt>Quantity: </dt>
+                    <dd>
+                        <select class="form-control form-control-sm" style="width:70px;">
+                            <option> 1 </option>
+                            <option> 2 </option>
+                            <option> 3 </option>
+                            <option> 4 </option>
+                            <option> 5 </option>
+                            <option> 6 </option>
+                            <option> 7 </option>
+                            <option> 8 </option>
+                            <option> 9 </option>
+                            <option> 10 </option>
+                        </select>
+                    </dd>
+                </dl>
+            </div>
+            <div class="row ">
+                <button class="btn btn-lg color-box-waanbii" type="button"> <i class="fa fa-shopping-cart"></i> Add to cart </button>
+            </div>
+
+            <div class="row mb-4 mt-4">
+                <button class="btn btn-lg btn-secondary" id="btnFav" type="button"><i class="fa fa-heart fa-heart"></i></button>
+            </div>
+
+
+
+        </aside>
+    </div>
+</div>
+
+
+
+
+
+<partial name="_SubmitReview" />
+
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            iid = $('#ProductId').val();
+            $.ajax({
+                url: "/Favorites/GetAPIFavoriteCheck/" + iid,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var flag1 = result.flag;
+                    if (flag1) {
+                        $('#btnFav').removeClass('btn btn-lg btn-secondary').addClass('btn btn-lg btn-danger');
+                    } else {
+                      
+                        $('#btnFav').removeClass('btn btn-lg btn-danger').addClass('btn btn-lg btn-secondary');
+                    }
+                }
+            });
+
+            $('#btnFav').click(function () {
+                    $.ajax({
+                        url: "/Favorites/GetAPIFavorite/" + id,
+                        type: "GET",
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+                            var flag = result.flag;
+                            if (flag) {
+                                $('#btnFav').removeClass('btn btn-lg btn-danger').addClass('btn btn-lg btn-secondary');
+                            } else {
+                               
+                                $('#btnFav').removeClass('btn btn-lg btn-secondary').addClass('btn btn-lg btn-danger');
+                            }
+                            console.log(result);
+                        },
+                        error: function (errormessage) {
+                            alert(errormessage);
+                        }
+                    });
+                });
+        });
+    </script>
+}

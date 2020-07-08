@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Vendi.Data.Favorite>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_CPLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="overview-wrap">
+                        <h2 class="title-1">Favorites</h2>
+
+                    </div>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ProductId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreateDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UpdateDate)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreateDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UpdateDate)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.FavoriteId">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.FavoriteId">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.FavoriteId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+</div>
+</div>
+</div>

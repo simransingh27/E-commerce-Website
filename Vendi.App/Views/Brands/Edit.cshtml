@@ -1,0 +1,42 @@
+﻿@model Vendi.Data.Brand
+
+@{
+    ViewData["Title"] = "Brands ";
+    Layout = "~/Views/Shared/_CPLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="overview-wrap">
+                        <h2 class="title-1">Edit</h2>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="col-md-12">
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="BrandId" />
+                    <input type="hidden" asp-for="CreateDate" />
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="BrandName">Brand</label>
+                        <input asp-for="BrandName" type="text" class="form-control" id="BrandName" aria-describedby="BrandName" placeholder="Brand Name">
+                        <span asp-validation-for="BrandName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Edit" class="au-btn au-btn-icon au-btn--blue" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

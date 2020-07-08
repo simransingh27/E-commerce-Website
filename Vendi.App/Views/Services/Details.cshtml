@@ -1,0 +1,291 @@
+﻿@model Vendi.App.Models.ServiceModelView
+<!-- Service Details Area Start -->
+
+<style>
+    .modal-backdrop {
+        top: 2px;
+        right: 5px;
+        bottom: 1px;
+        left: 1px;
+        z-index: 1030;
+        background-color: ghostwhite;
+        position: unset;
+    }
+</style>
+
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+        <!--hidden-->
+
+        <input asp-for="ServiceId" type="text" value="@Model.ServiceId" hidden />
+
+        <div class="row">
+
+            <div class="col-12 col-lg-7">
+                <!--Image here-->
+                <img src="@Model.ImagePath" class="img-thumbnail" width="350" alt="@Model.ServiceName">
+            </div>
+
+            <div class="col-12 col-lg-5">
+                <div class="single_product_desc">
+                    <!-- Product Meta Data -->
+                    <div class="product-meta-data">
+                        <div class="line"></div>
+
+                        <p class="product-price">£@Model.Price</p>
+
+                        <a><h6>@Model.ServiceName</h6></a>
+
+                        <!-- Ratings & Review -->
+                        <div class="ratings-review mb-15 d-flex align-items-center justify-content-between">
+                            <div class="ratings">
+                                @{
+                                    var num = Model.ServiceRating;
+                                    for (var i = 1; i < num; i++)
+                                    {
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    }
+                                    if (num % 2 != 0)
+                                    {
+                                        <i class="fa fa-star-half" aria-hidden="true"></i>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!--Add to fav list Start-->
+
+                    <a>
+                        <i id="btn_Fav" onclick="AddToWishList(@Model.ServiceId);" class="fa fa-heart fa-heart fa-3x" style="color:#eee;"></i>
+                    </a>
+
+                    <!--Add to fav list End -->
+                    <div class="short_overview my-5">
+                        <p>@Model.Description</p>
+                    </div>
+
+                    <!-- Add to Cart Form -->
+                    <form class="cart clearfix" method="post">
+                        <div class="cart-btn d-flex mb-50">
+                            <!--Empty-->
+                        </div>
+                        <button type="button" class="btn amado-btn mb-15" data-toggle="modal" id="offerbutton" data-target="#exampleModal">Send Offer</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="container-fluid">
+        <br />
+        <hr />
+
+        Tags:
+        @{ string[] tages = Model.Tags.Split(',');
+            if (tages != null)
+            {
+                <ul class="tags">
+                    @foreach (var tag in tages)
+                    {
+                        <li><a href="#" class="tag">@tag</a></li>
+                    }
+                </ul>
+            }
+        }
+    </div>
+
+    <!-- REview and write -->
+    <div class="container-fluid">
+        <partial name="_SubmitServiceReview" />
+    </div>
+
+</div>
+
+
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+        <div>
+            <div>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Enter Details To Send Offer</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group">
+                                        <b class="product-price" style="font-size:x-large">£@Model.Price per Hour</b>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">Hours:</label>
+                                        <input type="text" id="hours" class="form-control" aria-describedby="Hours" placeholder="Hours" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">Appoinment Date:</label>
+                                        <input type="date" id="fixdate" class="form-control" aria-describedby="Date" placeholder="Date Of the Appointment" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">Appoinment Time:</label>
+                                        <input type="time" id="fixtime" class="form-control" aria-describedby="Date" placeholder="Time Of the Appointment" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="message-text" class="col-form-label">Description of the Issue:</label>
+                                        <textarea class="form-control" id="descp" aria-describedby="Description" placeholder="Problem/Issue Small Description" required></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn amado-btn mb-15" data-dismiss="modal">Close</button>
+                                <button type="submit" onclick="SendOffer()" class="btn amado-btn mb-15">Send Offer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Service Details Area End -->
+<!-- MY Java script -->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        iid = $('#ServiceId').val();
+        console.log(iid);
+        $.ajax({
+            url: "/ServiceFavorites/GetServiceFavoriteCheck/" + iid,
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var flag1 = result.flag;
+                console.log(result);
+                if (flag1) {
+                    document.getElementById("btn_Fav").style.color = "#fbb710";
+                } else {
+
+                    document.getElementById("btn_Fav").style.color = "#eee";
+                }
+            }
+        }); 
+    });
+
+
+
+        function SendOffer()
+        {
+            var res = validate();
+            if (res === false) {
+                return false;
+            }
+
+            var OfferObj = {
+                ServiceId: $('#ServiceId').val(),
+                Price: @Model.Price,
+                Hours: $('#hours').val(),
+                Description: $('#descp').val(),
+                Date: $('#fixdate').val(),
+                Time: $('#fixtime').val()
+            };
+
+
+            var chh = $('#fixdate').val()
+            if (chh.toString().length != 10) {
+                alert("Invalid DATE");
+                return false;
+            }
+
+            $.ajax({
+                url: "/Services/AddServiceOffer",
+                data: JSON.stringify(OfferObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+
+                    if (result.flag) {
+                        window.alert('Offer Send');
+                        location.reload();
+                    }
+                    else {
+                        alert(result.msg);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+                    location.reload();
+                }
+            });
+    }
+
+
+    function validate() {
+        var isValid = true;
+        if ($('#hours').val().trim() === "") {
+            $('#hours').css('border-color', 'Red');
+            isValid = false;
+        }
+        else {
+            $('#hours').css('border-color', 'lightgrey');
+        }
+        if ($('#fixdate').val().trim() === "") {
+            $('#fixdate').css('border-color', 'Red');
+            isValid = false;
+        }
+        else {
+            $('#fixdate').css('border-color', 'lightgrey');
+        }
+        if ($('#fixtime').val().trim() === "") {
+            $('#fixtime').css('border-color', 'Red');
+            isValid = false;
+        }
+        else {
+            $('#fixtime').css('border-color', 'lightgrey');
+        }
+        if ($('#descp').val().trim() === "") {
+            $('#descp').css('border-color', 'Red');
+            isValid = false;
+        }
+        else {
+            $('#descp').css('border-color', 'lightgrey');
+        }
+
+        return isValid;
+    }
+
+    function AddToWishList(id) {
+
+        $.ajax({
+            url: "/ServiceFavorites/AddToServiceWishList/" + id,
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var flag = result.flag;
+                if (flag) {
+                    document.getElementById("btn_Fav").style.color = "#eee";
+                } else {
+                    document.getElementById("btn_Fav").style.color = "#fbb710";
+
+                }
+                console.log(result);
+            },
+            error: function (errormessage) {
+                alert(errormessage);
+            }
+        });
+    }
+
+</script>

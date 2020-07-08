@@ -1,0 +1,158 @@
+﻿@model Vendi.App.Models.CPModelView
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_CPLayout.cshtml";
+}
+
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="overview-wrap">
+                        <h2 class="title-1">overview</h2>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row m-t-25">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="overview-item overview-item--c1">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="zmdi zmdi-account-o"></i>
+                                </div>
+                                <div class="text">
+                                    <h2>@Model.NumberOfUsers</h2>
+                                    <span>members</span>
+                                </div>
+                            </div>
+                            <div class="overview-chart">
+                                <canvas id="widgetChart1"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="overview-item overview-item--c2">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="zmdi zmdi-shopping-cart"></i>
+                                </div>
+                                <div class="text">
+                                    <h2>@Model.NumberOfProducts</h2>
+                                    <span>Products</span>
+                                </div>
+                            </div>
+                            <div class="overview-chart">
+                                <canvas id="widgetChart2"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="overview-item overview-item--c3">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="zmdi zmdi-calendar-note"></i>
+                                </div>
+                                <div class="text">
+                                    <h2>@Model.NumberOfServices</h2>
+                                    <span>Services</span>
+                                </div>
+                            </div>
+                            <div class="overview-chart">
+                                <canvas id="widgetChart3"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="overview-item overview-item--c4">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="zmdi zmdi-puzzle-piece"></i>
+                                </div>
+                                <div class="text">
+                                    <h2>@Model.NumberOfOrders</h2>
+                                    <span>Orders</span>
+                                </div>
+                            </div>
+                            <div class="overview-chart">
+                                <canvas id="widgetChart4"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-9">
+                    <h2 class="title-1 m-b-25">Last 10 Orders</h2>
+                    <div class="table-responsive table--no-card m-b-40">
+                        <table class="table table-borderless table-striped table-earning">
+                            <thead>
+                                <tr>
+                                    <th>date</th>
+                                    <th>order ID</th>                                    
+                                    
+                                   
+                                    <th class="text-right">total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Last10Orders)
+                                {
+                                    <tr>
+                                        <td><a href="/Order/OrderDetails/@item.OrderId" style="color:#808080;"> @item.OrderDate </a></td>
+                                        <td> <a href="/Order/OrderDetails/@item.OrderId" style="color:#808080;"> @item.OrderId </a> </td>                                       
+                                        <td class="text-right">£ @item.Total</td>
+                                        
+                                        
+                                    </tr>
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <h2 class="title-1 m-b-25">Top Servies</h2>
+                    <div class="au-card au-card--bg-blue au-card-top-countries m-b-40">
+                        <div class="au-card-inner">
+                            <div class="table-responsive">
+                                <table class="table table-top-countries">
+                                    <tbody>
+                                        @foreach (var item in Model.Top10Services)
+                                        {
+                                            <tr>
+                                                <td> <a href="/Services/Details/@item.ServiceId" style="color:white;">@item.ServiceName</a></td>
+                                                <td class="text-right">£ @item.Price</td>
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="copyright">
+                        <p>Copyright © 2019 . All rights reserved.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

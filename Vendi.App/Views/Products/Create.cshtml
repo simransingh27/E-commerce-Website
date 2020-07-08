@@ -1,0 +1,124 @@
+﻿@model Vendi.Data.Product
+
+
+
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+
+        <!--Wizerd steps start-->
+
+        <div class="row relative-row bs-wizard" style="border-bottom:0;">
+
+            <div class="col-md-4 bs-wizard-step active ">
+                <div class="text-center bs-wizard-stepnum active">Create Product</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+            </div>
+
+            <div class="col-md-4 bs-wizard-step disabled ">
+                <!-- complete -->
+                <div class="text-center bs-wizard-stepnum ">Feature</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+
+            </div>
+
+            <div class="col-md-4 bs-wizard-step disabled ">
+                <!-- complete -->
+                <div class="text-center bs-wizard-stepnum ">Image</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+
+            </div>
+        </div>
+        </div>
+            <!--Wizerd steps Ends-->
+            <!-- Satrtt -->
+            <div class="row">
+                <div class="col-md-12">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label>Condition</label>
+                            <select asp-for="Condition" style="width:100%">
+                                <option value="1">New</option>
+                                <option value="2">Used</option>
+                            </select>
+                            <span asp-validation-for="Condition" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Brand</label>
+                            @Html.DropDownListFor(model => model.BrandId, new SelectList(Model.Brands, "BrandId", "BrandName"), new { @style = "width: 100%;" })
+                            <span asp-validation-for="BrandId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Product Type</label>
+                            @Html.DropDownListFor(model => model.ProductTypeId, new SelectList(Model.ProductTypes, "ProductTypeId", "ProductTypeName"), new { @style = "width: 100%;" })
+                            <span asp-validation-for="ProductTypeId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.Categories, "CategoryId", "CategoryName"), new { @style = "width: 100%;" })
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ProductName">ProductName</label>
+                            <input asp-for="ProductName" type="text" class="form-control" id="ProductName" aria-describedby="ProductName" placeholder="ProductName">
+                            <span asp-validation-for="ProductName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Quantity">Quantity</label>
+                            <input asp-for="Quantity" type="number" class="form-control" id="Quantity" aria-describedby="Quantity" placeholder="Quantity">
+                            <span asp-validation-for="Quantity" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="BarCode">BarCode</label>
+                            <input asp-for="BarCode" type="number" class="form-control" id="BarCode" aria-describedby="BarCode" placeholder="BarCode">
+                            <span asp-validation-for="BarCode" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Price">Price</label>
+                            <input asp-for="Price" type="number" class="form-control" id="ProductName" aria-describedby="Price" placeholder="Price">
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Description">Description</label>
+                            <textarea asp-for="Description" class="form-control" placeholder="Description" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input asp-for="Tags" class="form-control" aria-label="Sizing example input" type="text" data-role="tagsinput" aria-describedby="inputGroup-sizing-sm" placeholder="Add Tag" />
+                            <span asp-validation-for="Tags" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="IsFeatured" hidden /> 
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn amado-btn mb-15">Next</button>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+
+            <!-- Enf-->
+        </div>
+    </div>
+
+ 

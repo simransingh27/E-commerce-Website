@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Vendi.Data.ProductImage>
+
+    <div class="single_product_thumb">
+        <div id="product_details_slider" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+               
+
+
+                @{
+                    var counter = 0;
+
+                    @foreach (var item in Model)
+                    {
+                        counter++;
+                        <li data-target="#product_details_slider" data-slide-to="@counter" style="background-image: url(@item.ImagePath);"></li>
+                    }
+                }
+            </ol>
+            <div class="carousel-inner">
+
+
+                @{var idcounter = 0; }
+                @foreach (var item in Model)
+                {
+
+
+                    if (idcounter == 0)
+                    {
+                        idcounter++;
+                        <div class="carousel-item active">
+                            <a class="gallery_img" href="@item.ImagePath">
+                                <img class="d-block w-100" src="@item.ImagePath" alt="Second slide">
+                            </a>
+                        </div>
+                    }
+
+
+                    <div class="carousel-item">
+                        <a class="gallery_img" href="@item.ImagePath">
+                            <img class="d-block w-100" src="@item.ImagePath" alt="Second slide">
+                        </a>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+
+
+

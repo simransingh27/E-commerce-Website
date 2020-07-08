@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Vendi.Data.Order>
+@{
+    ViewData["Title"] = "My Order History";
+}
+<div class="cart-table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-12">
+                <div class="cart-title mt-50 fa-2x">
+                    <h2><i class="fa fa-medium">y orders history</i></h2>
+                </div>
+                <div class="cart-table clearfix">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Order Id</th>
+                                <th>Total </th>
+                                <th>Oder Date</th>
+                                <th>Order Status</th>
+                                 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="cart_product_desc">
+                                        <a href="/Order/OrderDetails/@item.OrderId"><h5>@item.OrderId</h5></a>
+                                    </td>
+                                     
+                                    <td class="qty">
+                                        <div class="qty-btn d-flex">
+                                            <div class="quantity">
+                                                <p>@item.Total</p>                                             
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="OrderDate">
+                                        <span> @item.OrderDate</span>
+                                    </td>
+                                    <td>
+
+                                        @{
+                                            var paid = item.IsPaid;
+                                            if (!paid)
+                                            {
+                                                <a asp-action="Checkout" asp-controller="Cart" asp-route-id="@item.OrderId"><i style="color:#fbb710" class="fa fa-paypal fa-3x">ay</i></a>
+                                            }
+                                            else
+                                            {
+                                                <i style="color:gray" class="fa fa-paypal fa-2x">aid</i>
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

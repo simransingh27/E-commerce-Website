@@ -1,0 +1,42 @@
+﻿@model Vendi.Data.ProductType
+
+
+@{
+    ViewData["Title"] = "Product Types";
+    Layout = "~/Views/Shared/_CPLayout.cshtml";
+}
+
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="overview-wrap">
+                        <h2 class="title-1">Create ProductType</h2>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="col-md-12">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="ProductTypeName">Product Type</label>
+                        <input asp-for="ProductTypeName" class="form-control" placeholder="Product Type" type="text" aria-describedby="ProductType" />
+                        <span asp-validation-for="ProductTypeName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="au-btn au-btn-icon au-btn--blue" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+-
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

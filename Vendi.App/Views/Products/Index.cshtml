@@ -1,0 +1,87 @@
+﻿
+<div class="amado_product_area section-padding-100">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-12 col-xl-6">
+
+                <!--Code-->
+                <div id="ProductDataDiv"></div>
+                <!--Code Ends-->
+                <div align="center" id="loader">
+                    <img src="~/Image/Vendi/loading_icon.gif" width="50" height="50" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script src="~/js/InfiniteScroll/mustache.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            var productCardTemplate,
+                isLoading = false,
+                pageNumber = 0,
+                productData = {
+                    products: []
+                };
+
+            function appendProductData(data) {
+                $.get('/pages/ProductCardTemplate.html',
+                    function (template) {
+                        console.log('Templ');
+                        console.log(template);
+                        productCardTemplate = template;
+                    }
+                );
+                $(document).ajaxStop(function () {
+                    var renderedPage = Mustache.to_html(productCardTemplate, data);
+                    $("#ProductDataDiv").append(renderedPage);
+                    //the name of the temple{{Products}}
+                    data.products = [];
+                });
+            }
+
+            function getProductData() {
+                if (!isLoading) {
+                    $("#loader").show();
+                    isLoading = true;
+                    pageNumber++;
+                    $.get("/Products/GetProducts?pageSize=2&currentPage=" +
+                        pageNumber,
+                        function (data) {
+                            if (data != '') {
+                                console.log(data);
+                                productData.products = data.results;
+                                console.log('Results');
+                                console.log(productData.products);
+                                appendProductData(productData);
+                            }
+                            isLoading = false;
+                            $("#loader").hide();
+                        });
+                }
+            };
+
+            $(window).scroll(function () {
+                if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                    getProductData("", 1);
+                }
+            });
+
+            // Initialise page
+            var initPage = function () {
+                getProductData("", 1);
+            }();
+        })
+    </script>
+
+}

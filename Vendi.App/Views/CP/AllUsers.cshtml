@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Vendi.App.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "All USers";
+    Layout = "~/Views/Shared/_CPLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="overview-wrap">
+                        <h2 class="title-1"><i class="fa fa-users fa-2x"></i> Users</h2>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-hover ">
+                <thead>
+                    <tr>
+                        <th>
+                            Image
+                        </th>
+                        <th>
+                            Full Name
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Gender
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@item.Image" class="img-thumbnail" alt="Cinque Terre" width="75">
+                            </td>
+                            <td>
+                                @item.FirstName @item.LastName
+                            </td>
+                            <td>
+                                @item.Email
+                            </td>
+                            <td>
+                                @{
+                                    var gender = item.Gender;
+                                    if (gender == 1)
+                                    {
+                                        <p>Male</p>
+
+                                    }
+                                    else if (gender == 2)
+                                    {
+                                        <p>Female</p>
+                                    }
+                                    else
+                                    {
+                                        <p>NA</p>
+                                    }
+                                }
+                            </td>
+                            <td></td>
+                            <td>
+                                <!-- V2   <a onclick="DeleteUser(@item.Id)"><i style="color:#4272d7;" class="fa fa-trash fa-2x"></i></a>-->
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+ 

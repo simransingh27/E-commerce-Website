@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Vendi.Data.Product>
+@{
+    ViewData["Title"] = "AdminProductPending";
+    Layout = "~/Views/Shared/_CPLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <br />
+
+            <table class="table table-hover ">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ProductName)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Quantity)
+                        </th>
+
+
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+
+
+
+
+                            <td>
+                                <a onclick="ApproveProduct(@item.ProductId)"><i style="color:#4272d7;" class="fa fa-check fa-2x"></i></a>  |
+                                <a asp-action="Details" asp-route-id="@item.ProductId"><i style="color:#4272d7;" class="fa fa-info-circle fa-2x"></i></a> |
+                                <a onclick="DeleteProduct(@item.ProductId)"><i style="color:#4272d7;" class="fa fa-trash fa-2x"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function DeleteProduct(id) {
+        var r = confirm("Are you sure to delete the pending request for this Vendor.");
+        if (r) {
+            $.ajax({
+                url: "/DeleteProduct/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+
+                    console.log(result);
+                    location.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+                }
+            });
+        }
+        location.reload();
+
+    }
+
+    function ApproveProduct(id) {
+        var r = confirm("Are you sure to Approve the pending request for this Vendor.");
+        if (r) {
+            $.ajax({
+                url: "/ApproveProduct/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+
+                    console.log(result);
+                    location.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+                }
+            });
+        }
+        location.reload();
+
+    }
+</script>

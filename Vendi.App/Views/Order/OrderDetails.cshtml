@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Vendi.App.Models.OrderModelView>
+@{
+    ViewData["Title"] = "OrderDetails";
+
+}
+
+<div class="cart-table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="cart-title mt-50">
+                    <h2> My Order Details</h2>
+                </div>
+                <div class="cart-table clearfix">
+                    <table class="table table-responsive table-hover">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="cart_product_img">
+                                        <a href="/Products/Details/@item.ProductId"><img src="@item.ImagePath" alt="Product"></a>
+                                    </td>
+                                    <td class="cart_product_desc">
+                                        <a href="/Products/Details/@item.ProductId"><b>  @item.ProductName</b></a>
+                                    </td>
+
+                                    <td class="price">
+                                        <span>£ @item.Price</span>
+                                    </td>
+                                    <td class="qty">
+                                        <div class="qty-btn d-flex">
+                                            <div class="quantity">
+                                                <p>@item.Quantity</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+                <div class="cart-summary">
+                    <h5>Cart Total</h5>
+                    <ul class="summary-table">
+                        <li><span>Subtotal:</span> <span class="spantotal"></span></li>
+                        <li><span>Delivery:</span> <span>Free</span></li>
+                        <li><span>total:</span> <span class="spantotal"></span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+
+            $.ajax({
+                url: "/GetCartTotal",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    $(".spantotal").html(result);
+                }
+            });
+        });
+
+    </script>
+}

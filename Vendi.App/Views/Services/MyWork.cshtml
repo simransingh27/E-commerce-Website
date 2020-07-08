@@ -1,0 +1,216 @@
+﻿@model int
+
+@{
+    ViewData["Title"] = "MyWork";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .modal-backdrop {
+        top: 2px;
+        right: 5px;
+        bottom: 1px;
+        left: 1px;
+        z-index: 1030;
+        background-color: ghostwhite;
+        position: unset;
+    }
+
+    div {
+        margin: 10px;
+    }
+
+    #timer {
+        font-size: 2.5em;
+    }
+</style>
+
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <center>
+                    <div>
+                        <h4 id="heading">DIGITAL STOPWATCH</h4>
+                        <h1 id="timer">0:0:0</h1>
+                        <button class="btn amado-btn mb-15" id="start" onclick="start();">Start</button>
+                        <button class="btn amado-btn mb-15" id="stop" onclick="stop();">Stop</button>
+                        <button class="btn amado-btn mb-15" id="reset" onclick="reset();">Reset</button>
+                        <button class="btn amado-btn mb-15" id="finish" onclick="stop();" data-toggle="modal" data-target="#exampleModal">Finish</button>
+                    </div>
+                </center>
+            </div>
+
+
+
+
+
+
+            <div class="col-md-12">
+                <center>
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Enter Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea class="form-control" id="descrp" placeholder="Description" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Total Amount</label>
+                                        <input class="form-control" id="amount" placeholder="Total Amount" type="number" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+
+                                    <button onclick="CompleteService()" class="btn amado-btn mb-15">Complete</button>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                    </center>
+                </div>
+
+
+
+
+</div>
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+
+
+
+
+
+    var min = 0;
+    var sec = 0;
+    var miliSec = 0;
+    var timer;
+
+    function callTimer() {
+        miliSec++;
+        if (miliSec < 100) {
+            if (miliSec === 99) {
+                miliSec = 0;
+                sec++;
+                if (sec === 60) {
+                    sec = 0;
+                    min++;
+                }
+            }
+        }
+        else {
+            miliSec = 0;
+        }
+        document.getElementById("timer").innerHTML = min + ":" + sec;
+    }
+
+
+    function start() {
+        document.getElementById("start").disabled = true;
+        timer = setInterval(callTimer, 10);
+    }
+
+    function stop() {
+        document.getElementById("start").disabled = false;
+        clearInterval(timer);
+    }
+
+    function reset() {
+        stop();
+        min = 0;
+        sec = 0;
+        miliSec = 0;
+        document.getElementById("timer").innerHTML = min + ":" + sec;
+        document.getElementById("start").disabled = false;
+    }
+
+    function CompleteService() {
+
+        stop();
+        var c = $('#timer').html();
+        var d = c.toString();
+
+
+        var res = validate();
+        if (res === false) {
+            return false;
+        }
+
+
+      
+
+        var ServiceCompleteObj = {
+            ServiceId: @Model,
+            TotalAmount: $('#amount').val(),
+            Description: $('#descrp').val(),
+            TimeTaken: d
+        };
+
+        $.ajax({
+            url: "/Services/CompleteServiceOffer",
+            data: JSON.stringify(ServiceCompleteObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+
+            success: function (result) {
+
+              
+                    window.alert('Done');
+                url = "/Services/MyAppointments";
+                    $(location).attr("href", url);
+                 //   location.reload();
+                    //To My Appo
+                 
+            },
+            error: function (errormessage) {
+                alert(errormessage);
+                location.reload();
+            }
+        });
+    }
+
+
+
+    function validate() {
+        var isValid = true;
+        if ($('#descrp').val().trim() === "") {
+            $('#descrp').css('border-color', 'Red');
+            isValid = false;
+        }
+        else {
+            $('#descrp').css('border-color', 'lightgrey');
+        }
+        if ($('#amount').val().trim() === "") {
+            $('#amount').css('border-color', 'Red');
+            isValid = false;
+        }
+        else {
+            $('#amount').css('border-color', 'lightgrey');
+        }
+
+        return isValid;
+    }
+
+
+
+</script>
+
+

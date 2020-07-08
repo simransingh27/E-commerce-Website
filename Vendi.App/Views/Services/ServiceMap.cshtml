@@ -1,0 +1,81 @@
+﻿@model Vendi.App.Models.MapModelView
+@{
+    ViewData["Title"] = "ServiceMap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="amado_product_area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="product-topbar d-xl-flex align-items-end justify-content-between">
+                    <!-- Total Products -->
+                    <div class="total-products">                        
+                        <div class="view d-flex">
+                            <a href="/Services/Index"><i class="fa fa-th-large" ></i></a>
+                            <a href="/Services/ServiceMap"><i class="fa fa-map-marker" ></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4>Services Map</h4>
+        <div class="row">
+            <!-- Your Map here Start -->
+            <div id="dvMap" style="width:800px; height: 600px" align="center">
+            </div>
+            <!-- Your Map here  End -->
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqolTdoEIH7uy9fiTQHrLymFMYGxf2A_A&libraries=geometry"></script>
+<script type="text/javascript">
+    var markers = @Html.Raw(Model.Marker);
+
+    console.log('Marker...');
+    console.log(markers);
+            //centering map
+            window.onload = function () {
+                var mapOptions = {
+                    center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+                    zoom: 13,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                var image = {
+                    url: '/image/vendi/Vendi_icon_services.png', // url
+                    scaledSize: new google.maps.Size(30, 30), // scaled size
+                    origin: new google.maps.Point(0, 0), // origin
+                    anchor: new google.maps.Point(0, 0) // anchor
+                };
+
+             
+                var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+                for (i = 0; i < markers.length; i++) {
+                    var data = markers[i]
+                    var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: data.text
+                    });
+                    var marker = new google.maps.Marker({
+                        position: myLatlng,
+                        icon : image,
+                        map: map,
+                        title: data.title
+
+                    });
+                   
+                    (function (marker, data) {
+                        google.maps.event.addListener(marker, "click", function (e) {
+                           
+                            console.log('Maker2');
+                            console.log(marker);
+                            infoWindow.open(map, marker);
+                        });
+                    })(marker, data);
+                }
+            }
+
+</script>

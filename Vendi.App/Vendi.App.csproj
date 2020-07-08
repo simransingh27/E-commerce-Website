@@ -1,0 +1,188 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>aspnet-Vendi.App-AD302701-8102-4C90-A4D5-AF97ADF796C1</UserSecretsId>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20190205155853_InitialCreate2.cs" />
+    <Compile Remove="Data\Migrations\20190205161609_InitialCreate3Service.cs" />
+    <Compile Remove="Data\Migrations\20190206180053_map.cs" />
+    <Compile Remove="Data\Migrations\20190206181350_map22.cs" />
+    <Compile Remove="Data\Migrations\20190206181539_map2222.cs" />
+    <Compile Remove="Data\Migrations\20190212152908_rev.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="getAddress.Sdk" Version="1.5.2" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" />
+    <PackageReference Include="Nexmo.Csharp.Client" Version="3.2.4" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vendi.Data\Vendi.Data.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-100.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-100.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-100italic.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-100italic.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-200.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-200.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-200italic.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-200italic.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-300.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-300.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-300italic.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-300italic.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-500.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-500.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-500italic.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-500italic.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-600.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-600.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-600italic.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-600italic.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-700.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-700.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-700italic.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-700italic.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-800.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-800.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-800italic.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-800italic.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-900.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-900.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-900italic.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-900italic.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-italic.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-italic.woff2" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-regular.svg" />
+    <None Include="wwwroot\CP\fonts\poppins\poppins-v5-latin-regular.woff2" />
+    <None Include="wwwroot\CP\js\main.js" />
+    <None Include="wwwroot\CP\vendor\animsition\animsition.min.js" />
+    <None Include="wwwroot\CP\vendor\bootstrap-4.1\bootstrap.min.js" />
+    <None Include="wwwroot\CP\vendor\bootstrap-4.1\popper.min.js" />
+    <None Include="wwwroot\CP\vendor\bootstrap-progressbar\bootstrap-progressbar.min.js" />
+    <None Include="wwwroot\CP\vendor\chartjs\Chart.bundle.min.js" />
+    <None Include="wwwroot\CP\vendor\circle-progress\circle-progress.js" />
+    <None Include="wwwroot\CP\vendor\circle-progress\circle-progress.min.js" />
+    <None Include="wwwroot\CP\vendor\countdown\countdowntime.js" />
+    <None Include="wwwroot\CP\vendor\countdown\jquery.countdown.min.js" />
+    <None Include="wwwroot\CP\vendor\countdown\moment-timezone-with-data.min.js" />
+    <None Include="wwwroot\CP\vendor\countdown\moment-timezone.min.js" />
+    <None Include="wwwroot\CP\vendor\countdown\moment.min.js" />
+    <None Include="wwwroot\CP\vendor\counter-up\jquery.counterup.min.js" />
+    <None Include="wwwroot\CP\vendor\counter-up\jquery.waypoints.min.js" />
+    <None Include="wwwroot\CP\vendor\counter-up\waypoints.min.js" />
+    <None Include="wwwroot\CP\vendor\font-awesome-4.7\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\CP\vendor\font-awesome-4.7\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\CP\vendor\font-awesome-5\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\CP\vendor\font-awesome-5\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\CP\vendor\font-awesome-5\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\CP\vendor\font-awesome-5\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\CP\vendor\font-awesome-5\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\CP\vendor\font-awesome-5\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\CP\vendor\jquery-3.2.1.min.js" />
+    <None Include="wwwroot\CP\vendor\jquery-ui.min.js" />
+    <None Include="wwwroot\CP\vendor\lightbox2\dist\js\lightbox-plus-jquery.js" />
+    <None Include="wwwroot\CP\vendor\lightbox2\dist\js\lightbox-plus-jquery.min.js" />
+    <None Include="wwwroot\CP\vendor\lightbox2\dist\js\lightbox-plus-jquery.min.map" />
+    <None Include="wwwroot\CP\vendor\lightbox2\dist\js\lightbox.js" />
+    <None Include="wwwroot\CP\vendor\lightbox2\dist\js\lightbox.min.js" />
+    <None Include="wwwroot\CP\vendor\lightbox2\dist\js\lightbox.min.map" />
+    <None Include="wwwroot\CP\vendor\lightbox2\src\js\lightbox.js" />
+    <None Include="wwwroot\CP\vendor\mdi-font\fonts\Material-Design-Iconic-Font.svg" />
+    <None Include="wwwroot\CP\vendor\mdi-font\fonts\Material-Design-Iconic-Font.woff2" />
+    <None Include="wwwroot\CP\vendor\perfect-scrollbar\perfect-scrollbar.js" />
+    <None Include="wwwroot\CP\vendor\perfect-scrollbar\perfect-scrollbar.min.js" />
+    <None Include="wwwroot\CP\vendor\progressbar\progressbar.js" />
+    <None Include="wwwroot\CP\vendor\progressbar\progressbar.min.js" />
+    <None Include="wwwroot\CP\vendor\select2\select2.min.js" />
+    <None Include="wwwroot\CP\vendor\slick\config.rb" />
+    <None Include="wwwroot\CP\vendor\slick\fonts\slick.svg" />
+    <None Include="wwwroot\CP\vendor\slick\slick-theme.less" />
+    <None Include="wwwroot\CP\vendor\slick\slick-theme.scss" />
+    <None Include="wwwroot\CP\vendor\slick\slick.js" />
+    <None Include="wwwroot\CP\vendor\slick\slick.less" />
+    <None Include="wwwroot\CP\vendor\slick\slick.min.js" />
+    <None Include="wwwroot\CP\vendor\slick\slick.scss" />
+    <None Include="wwwroot\CP\vendor\smk-accordion\accordion.js" />
+    <None Include="wwwroot\CP\vendor\smk-accordion\accordion.min.js" />
+    <None Include="wwwroot\CP\vendor\sweetalert\sweetalert.min.js" />
+    <None Include="wwwroot\CP\vendor\vector-map\jquery.vmap.brazil.js" />
+    <None Include="wwwroot\CP\vendor\vector-map\jquery.vmap.europe.js" />
+    <None Include="wwwroot\CP\vendor\vector-map\jquery.vmap.france.js" />
+    <None Include="wwwroot\CP\vendor\vector-map\jquery.vmap.germany.js" />
+    <None Include="wwwroot\CP\vendor\vector-map\jquery.vmap.js" />
+    <None Include="wwwroot\CP\vendor\vector-map\jquery.vmap.min.js" />
+    <None Include="wwwroot\CP\vendor\vector-map\jquery.vmap.russia.js" />
+    <None Include="wwwroot\CP\vendor\vector-map\jquery.vmap.sampledata.js" />
+    <None Include="wwwroot\CP\vendor\vector-map\jquery.vmap.usa.js" />
+    <None Include="wwwroot\CP\vendor\vector-map\jquery.vmap.world.js" />
+    <None Include="wwwroot\CP\vendor\wow\wow.min.js" />
+    <None Include="wwwroot\js\InfiniteScroll\material.js" />
+    <None Include="wwwroot\js\InfiniteScroll\material.min.js" />
+    <None Include="wwwroot\js\InfiniteScroll\material.min.js.map" />
+    <None Include="wwwroot\js\InfiniteScroll\mustache.js" />
+    <None Include="wwwroot\Styles\.sass-cache\23fb10bb6531a16595cc9a8cbcaeb8f40f41ec84\style.scssc" />
+    <None Include="wwwroot\Styles\.sass-cache\23fb10bb6531a16595cc9a8cbcaeb8f40f41ec84\_mixin.scssc" />
+    <None Include="wwwroot\Styles\.sass-cache\23fb10bb6531a16595cc9a8cbcaeb8f40f41ec84\_responsive.scssc" />
+    <None Include="wwwroot\Styles\.sass-cache\23fb10bb6531a16595cc9a8cbcaeb8f40f41ec84\_theme_color.scssc" />
+    <None Include="wwwroot\Styles\.sass-cache\23fb10bb6531a16595cc9a8cbcaeb8f40f41ec84\_variables.scssc" />
+    <None Include="wwwroot\Styles\.sass-cache\997c61c8c2a2a831333fab68bc2254612bdf8817\style.scssc" />
+    <None Include="wwwroot\Styles\.sass-cache\997c61c8c2a2a831333fab68bc2254612bdf8817\_mixin.scssc" />
+    <None Include="wwwroot\Styles\.sass-cache\997c61c8c2a2a831333fab68bc2254612bdf8817\_responsive.scssc" />
+    <None Include="wwwroot\Styles\.sass-cache\997c61c8c2a2a831333fab68bc2254612bdf8817\_theme_color.scssc" />
+    <None Include="wwwroot\Styles\.sass-cache\997c61c8c2a2a831333fab68bc2254612bdf8817\_variables.scssc" />
+    <None Include="wwwroot\Styles\css\core-style.css.map" />
+    <None Include="wwwroot\Styles\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\Styles\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\Styles\fonts\helveticaneue_medium-webfont.woff2" />
+    <None Include="wwwroot\Styles\fonts\helvetica_neu_bold-webfont.woff2" />
+    <None Include="wwwroot\Styles\js\active.js" />
+    <None Include="wwwroot\Styles\js\bootstrap.min.js" />
+    <None Include="wwwroot\Styles\js\classy-nav.min.js" />
+    <None Include="wwwroot\Styles\js\jquery\jquery-2.2.4.min.js" />
+    <None Include="wwwroot\Styles\js\map-active.js" />
+    <None Include="wwwroot\Styles\js\plugins.js" />
+    <None Include="wwwroot\Styles\js\popper.min.js" />
+    <None Include="wwwroot\Styles\scss\style.scss" />
+    <None Include="wwwroot\Styles\scss\_mixin.scss" />
+    <None Include="wwwroot\Styles\scss\_responsive.scss" />
+    <None Include="wwwroot\Styles\scss\_theme_color.scss" />
+    <None Include="wwwroot\Styles\scss\_variables.scss" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Views\ServiceFavorites\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Reference Include="EntityFrameworkPaginate">
+      <HintPath>MyDLL\EntityFrameworkPaginate.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldpay.Sdk">
+      <HintPath>MyDLL\Worldpay.Sdk.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

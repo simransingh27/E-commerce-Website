@@ -1,0 +1,313 @@
+﻿@page
+
+@model AddressDataModel
+@{
+    ViewData["Title"] = "Address";
+    ViewData["ActivePage"] = ManageNavPages.Address;
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+
+    <div class="col-md-6" id="divdata">
+
+        <div class="form-group">
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Post Code</span>
+                </div>
+                <input id="PostCodeData" class="form-control" placeholder="Post Code" type="text" required aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">House Number</span>
+                </div>
+                <input id="HouseNumberData" class="form-control" placeholder="House Number" type="text" required aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="button" id="btn-GetAddress" value="Get Address" onclick="GetAddress()" class="btn btn-primary btn-lg btn-block" />
+        </div>
+    </div>
+    </div>
+<div class="row">
+    <div class="col-md-6" id="divresult">
+        <!-- <form asp-action="Create" asp-controller="Addresses" method="post">-->
+        <form id="Address-form">
+            <input asp-for="_address.AddressId" class="form-control" hidden="hidden" value="0" />
+           
+           
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">PostCode</span>
+                    </div>
+                    <input asp-for="_address.PostCode" class="form-control" placeholder="PostCode" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                    <span asp-validation-for="_address.PostCode" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">HouseNumber</span>
+                    </div>
+                    <input asp-for="_address.HouseNumber" class="form-control" placeholder="HouseNumber" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                    <span asp-validation-for="_address.HouseNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Street</span>
+                    </div>
+                    <input asp-for="_address.Street" class="form-control" placeholder="Street" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                    <span asp-validation-for="_address.Street" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">City</span>
+                    </div>
+                    <input asp-for="_address.City" class="form-control" placeholder="City" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                    <span asp-validation-for="_address.City" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">County</span>
+                    </div>
+                    <input asp-for="_address.County" class="form-control" placeholder="County" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                    <span asp-validation-for="_address.County" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Country</span>
+                    </div>
+                    <input asp-for="_address.Country" class="form-control"  placeholder="Country" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                    <span asp-validation-for="_address.Country" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Longitute</span>
+                        </div>
+                        <input asp-for="_address.Longitute" class="form-control" value="0" placeholder="Longitute" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"  />
+                        <span asp-validation-for="_address.Longitute" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Latitue</span>
+                        </div>
+                        <input asp-for="_address.Latitue" class="form-control" value="0" placeholder="Latitue" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"  />
+                        <span asp-validation-for="_address.Latitue" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <input type="button" id="btnCreate" onclick="SaveAddress();" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <div id="gmap" style="width:500px;height:350px;"></div>
+    </div>
+
+</div>
+<div class="row">
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBl-4zaj61uZfQbmS_6bmQL_eAvYAOb0GY&sensor=false"></script>
+    <script>
+
+       // $(document).ready(function () {
+        //    $("#divresult").hide();
+
+
+     //   });
+
+ 
+
+        function GetAddress() {
+            //PostCode
+            
+ 
+               
+
+            ///Post code
+            var res = validate();
+            if (!res) {
+                return false;
+            }
+            var newPostCode = checkPostCode(document.getElementById('PostCodeData').value);
+            if (!newPostCode) { 
+                alert("Invalid Postcode")
+                return false;
+            }
+
+
+            var AddressnObj1 = {
+                PostCode: $('#PostCodeData').val(),
+                HouseNumber: $('#HouseNumberData').val()
+            };
+            console.log('Submitting form...');
+            console.log(AddressnObj1);
+
+            $.ajax({
+                url: "/Addresses/GetAddressFromAPI",
+                data: JSON.stringify(AddressnObj1),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+
+                    console.log(result);
+
+                    $('#zaddress_PostCode').val(result.postCode);
+                    $('#zaddress_HouseNumber').val(result.houseNumber);
+                    $('#zaddress_Street').val(result.street);
+                    $('#zaddress_City').val(result.city);
+                    $('#zaddress_County').val(result.country);
+                    $('#zaddress_Country').val(result.county);
+                    $('#zaddress_Longitute').val(result.longitute);
+                    $('#zaddress_Latitue').val(result.latitue);
+
+                    initMap(result.latitue, result.longitute);
+
+                    $("#divresult").show();
+                    $("#divdata").hide();
+
+                },
+                error: function (result) {
+
+                    alert(result.msg);
+
+                }
+            });
+        }
+
+
+        var map;
+
+        function initMap(L, T) {
+
+            var longitute = T;
+            var latitude = L;
+            var myLatlng = new google.maps.LatLng(latitude, longitute);
+            var myOptions = {
+                zoom: 17,
+                center: myLatlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            map = new google.maps.Map(document.getElementById("gmap"), myOptions);
+            // marker refers to a global variable
+            marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map
+            });
+
+        }
+
+
+
+        function validate() {
+            var isValid = true;
+            if ($('#PostCodeData').val().trim() === "") {
+                $('#PostCodeData').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#PostCodeData').css('border-color', 'lightgrey');
+            }
+            if ($('#HouseNumberData').val().trim() === "") {
+                $('#HouseNumberData').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#HouseNumberData').css('border-color', 'lightgrey');
+            }
+
+            return isValid;
+        }
+
+        function SaveAddress() {
+
+            //postcode
+             
+           
+               
+
+            //postcode
+
+
+            var AddressnObj = {
+                AddressId: $('#zaddress_AddressId').val(),
+                PostCode: $('#zaddress_PostCode').val(),
+                HouseNumber: $('#zaddress_HouseNumber').val(),
+                Street: $('#zaddress_Street').val(),
+                City: $('#zaddress_City').val(),
+                Country: $('#zaddress_Country').val(),
+                County: $('#zaddress_County').val(),
+                Longitute: $('#zaddress_Longitute').val(),
+                Latitue: $('#zaddress_Latitue').val()
+              
+
+            };
+
+            console.log('Submitting for Addresss');
+            console.log(AddressnObj);
+            $.ajax({
+                url: "/Addresses/SaveAddress",
+                data: JSON.stringify(AddressnObj),
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+
+                success: function (result) {
+                    var flag = result.flag;
+                    if (flag) {
+                        alert("Has been Inserted.");
+                    } else {
+                         alert("Has been Updated.");
+
+                    }
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+
+        }
+
+
+    </script>
+
+
+
+}
+

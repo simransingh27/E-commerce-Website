@@ -1,0 +1,185 @@
+﻿@model IEnumerable<Vendi.App.Models.CartsModelView>
+
+@{
+    ViewData["Title"] = "USerCartDetails";
+
+}
+
+ 
+
+<div class="cart-table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="cart-title mt-50">
+                    <h2>Shopping Cart</h2>
+                </div>
+                <div class="cart-table clearfix">
+                    <table class="table table-responsive table-hover">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (Model != null)
+                                {
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="cart_product_img">
+                                                <a href="#"><img src="@item.ImagePath" alt="Product"></a>
+                                            </td>
+                                            <td class="cart_product_desc">
+                                                <a href="/Products/Details/@item.ProductId"><h5>@item.ProductName</h5></a>
+                                            </td>
+                                            <td class="price">
+                                                <span>£ @item.Price</span>
+                                            </td>
+                                            <td class="qty">
+                                                <div class="qty-btn d-flex">
+                                                    <div class="quantity">
+                                                        <p>@item.Quantity</p>
+                                                    </div>
+                                                    <span>
+                                                        &nbsp;
+                                                        <a onclick="DeleteCartLine(@item.CartLineId)"><span class="fa fa-remove text-danger" style="font-size:36px;color:red"></span></a>
+                                                    </span>
+                                                </div>
+                                                <!--FOr create order-->
+                                                <input hidden id="cartidvalue" value="@item.CartId" />
+                                                <input hidden id="totalvalue" value="@item.Total" />
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                                else
+                                {
+                                    <div class="alert alert-danger">
+                                        <i class="fa fa-cart-plus fa-2x"></i>
+                                        <strong>   Cart!   </strong>    Your Cart Is Empty.
+                                    </div>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="cart-summary">
+                    <h5> <i class="fa fa-shopping-cart"></i>  Cart Total</h5>
+                    <ul class="summary-table">
+                        <li><span>Subtotal:</span> <span class="spantotal"></span></li>
+                        <li><span>Delivery:</span> <span>Free</span></li>
+                        <li><span>total:</span> <span class="spantotal"></span></li>
+                    </ul>
+                    <div class="cart-btn">                       
+                        <a class="btn amado-btn w-100" onclick="Checkout();">Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+
+
+    <script>
+
+        function Checkout() {
+            // to create order , check the radio if cod create order or after payment done...   
+            //Create order for cash start
+            var OrderObj = {
+                CartId: $("#cartidvalue").val(),
+                Total: $("#totalvalue").val()               
+            };
+            console.log(OrderObj);
+            $.ajax({
+                //create opened order
+                url: "/Order/CreateOrder",
+                data: JSON.stringify(OrderObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    if (result.flag) {
+                        // careate order status open true
+                        url = "/Cart/Checkout/" + result.msg;
+                        $(location).attr("href", url);
+                    } else {
+                        alert('Call the Support team, You have an issue');
+                    }
+                    
+                },
+                error: function (result) {
+                    alert(result.msg);
+                }
+            });
+            
+        }
+
+
+
+
+        function DeleteCartLine(id) {
+            var r = confirm("Are you sure to delete this cart.");
+            if (r) {
+
+                $.ajax({
+                    url: "/DeleteCartLine/" + id,
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        console.log(result);
+                        location.reload();
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage);
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function () {
+
+            $("#paypal-button-container").hide();
+            $("#checkout-btn").hide();
+
+            var t = $("#cartidvalue").val();
+            var c = $("#totalvalue").val();
+            $("#CartId").val(t);
+            $("#Total").val(c);
+
+
+            $.ajax({
+                url: "/GetCartTotal",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    $(".spantotal").html(result);
+                }
+            });
+        });
+
+    </script>
+
+
+
+}

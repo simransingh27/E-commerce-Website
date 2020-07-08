@@ -1,0 +1,39 @@
+﻿@model Vendi.Data.FeaturedProduct
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <input asp-for="ProductId" class="form-control" hidden />
+                    <input asp-for="FeatureId" class="form-control" hidden />
+                    <div class="form-group">
+                        <label asp-for="FeaturedFrom">Featured From Date</label>
+                        <input asp-for="FeaturedFrom" class="form-control" placeholder="Featured From Date" type="date" aria-describedby="FeaturedFrom" />
+                        <span asp-validation-for="FeaturedFrom" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="FeaturedTo">Featured To Date</label>
+                        <input asp-for="FeaturedTo" class="form-control" placeholder="Featured To Date" type="date" aria-describedby="FeaturedTo" />
+                        <span asp-validation-for="FeaturedTo" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input asp-for="CreatedDate" class="flex-lg-row" hidden />
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn amado-btn mb-15">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Vendi.Data.ServiceOffer>
+@{
+    ViewData["Title"] = "PendingServiceOffers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <b style="font-size:x-large">Pending Service Offers</b>
+                <br />
+
+                <table class="table table-hover ">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Date)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Price)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Hours)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Date)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Hours)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    <a onclick="ApproveServiceOffer(@item.ServiceOfferId)"><i style="color:#fbb710;" class="fa fa-check fa-3x"></i></a> |
+                                    <a a onclick="DeleteServiceOffer(@item.ServiceOfferId)"><i style="color:#fbb710;" class="fa fa-close fa-3x"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function ApproveServiceOffer(id) {
+        var r = confirm("Are you sure You Want to Accept the Offer!");
+        if (r) {
+            $.ajax({
+                url: "/Services/AcceptOffer/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+
+                    console.log(result);
+                    location.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+                }
+            });
+        }
+        location.reload();
+
+    }
+
+    function DeleteServiceOffer(id) {
+        var r = confirm("Are you sure You Want to Decline the Offer!");
+        if (r) {
+            $.ajax({
+                url: "/Services/DeclineServiceOffer/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+                    console.log(result);
+                    location.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+                }
+            });
+        }
+        location.reload();
+
+    }
+</script>

@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Vendi.Data.Service>
+
+@{
+    ViewData["Title"] = "AdminServicePending";
+    Layout = "~/Views/Shared/_CPLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <br />
+
+            <table class="table table-hover ">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ServiceName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreateDate)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ServiceName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreateDate)
+                            </td>
+
+                            <td>
+                                <a onclick="ApproveService(@item.ServiceId)"><i style="color:#4272d7;" class="fa fa-check fa-2x"></i></a> |
+                                <a asp-action="Details" asp-route-id="@item.ServiceId"><i style="color:#4272d7;" class="fa fa-info-circle fa-2x"></i></a>  |
+                                <a a onclick="DeleteService(@item.ServiceId)"><i style="color:#4272d7;" class="fa fa-trash fa-2x"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function DeleteService(id) {
+        var r = confirm("Are you sure to delete the pending request for this Vendor.");
+        if (r) {
+            $.ajax({
+                url: "/DeleteService/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+
+                    console.log(result);
+                    location.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+                }
+            });
+        }
+        location.reload();
+
+    }
+
+    function ApproveService(id) {
+        var r = confirm("Are you sure to Approve the pending request for this Vendor.");
+        if (r) {
+            $.ajax({
+                url: "/ApproveService/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+
+                    console.log(result);
+                    location.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+                }
+            });
+        }
+        location.reload();
+
+    }
+</script>

@@ -1,0 +1,262 @@
+﻿@model Vendi.Data.BusinessAddress
+
+@{
+    ViewData["Title"] = "BusinessAddress";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+
+        <!--Wizerd steps start-->
+
+        <div class="row relative-row bs-wizard" style="border-bottom:0;">
+
+            <div class="col-md-3 bs-wizard-step complete ">
+                <div class="text-center bs-wizard-stepnum complete">Create Service</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+            </div>
+
+            <div class="col-md-3 bs-wizard-step complete ">
+                <!-- complete -->
+                <div class="text-center bs-wizard-stepnum complete ">Feature</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+
+            </div>
+            <div class="col-md-3 bs-wizard-step active ">
+                <!-- complete -->
+                <div class="text-center bs-wizard-stepnum ">Business Address</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+
+            </div>
+            <div class="col-md-3 bs-wizard-step disabled ">
+                <!-- complete -->
+                <div class="text-center bs-wizard-stepnum ">Image</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+
+            </div>
+        </div>
+    </div>
+    <!--Wizerd steps Ends-->
+    <h3> Add the Business Address</h3>
+    <!-- Start -->
+    <div class="row">
+        <!--Get Addtress API-->
+        <div class="col-md-6" id="divdata">
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Post Code</span>
+                    </div>
+                    <input id="PostCodeData" class="form-control" placeholder="Post Code" type="text" required aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">House Number</span>
+                    </div>
+                    <input id="HouseNumberData" class="form-control" placeholder="House Number" type="text" required aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Get Address" onclick="GetAddress()" class="btn amado-btn mb-15" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!--Address-->
+        <div class="col-md-6">
+            <form asp-action="BusinessAddress">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="PostCode" class="control-label"></label>
+                    <input asp-for="PostCode" class="form-control" />
+                    <span asp-validation-for="PostCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="HouseNumber" class="control-label"></label>
+                    <input asp-for="HouseNumber" class="form-control" />
+                    <span asp-validation-for="HouseNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Street" class="control-label"></label>
+                    <input asp-for="Street" class="form-control" />
+                    <span asp-validation-for="Street" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="City" class="control-label"></label>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Country" class="control-label"></label>
+                    <input asp-for="Country" class="form-control" />
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="County" class="control-label"></label>
+                    <input asp-for="County" class="form-control" />
+                    <span asp-validation-for="County" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Longitute" class="control-label"></label>
+                    <input asp-for="Longitute" class="form-control" />
+                    <span asp-validation-for="Longitute" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Latitue" class="control-label"></label>
+                    <input asp-for="Latitue" class="form-control" />
+                    <span asp-validation-for="Latitue" class="text-danger"></span>
+                </div>
+
+                <input asp-for="ServiceCategoryId" class="form-control" hidden />
+                <input asp-for="ServiceId" class="form-control" hidden />
+
+                <div class="form-group">
+                    <input type="submit" value="Next" class="btn amado-btn mb-15" />
+                </div>
+            </form>
+        </div>
+        <!--Map-->
+        <div class="col-md-6">
+            <div id="gmap" style="width:500px;height:350px;"></div>
+        </div>
+
+    </div>
+</div>
+ 
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBl-4zaj61uZfQbmS_6bmQL_eAvYAOb0GY&sensor=false"></script>
+    <script>
+
+        //PostCode
+        document.getElementById("PostCode").addEventListener("change", postCodeValidation);        
+        function postCodeValidation() {
+            var _PostCode = checkPostCode(document.getElementById('PostCode').value);
+            if (_PostCode) {               
+                return true;
+            }
+            else {
+                alert("Invalid Postcode")
+                return false;
+            }
+        }
+        // $(document).ready(function () {
+        //    $("#divresult").hide();
+
+
+        //   });
+        function GetAddress() {
+
+            var res = validate();
+            if (!res) {
+                return false;
+            }
+
+            var newPostCode = checkPostCode(document.getElementById('PostCodeData').value);
+            if (!newPostCode) {
+                alert("Invalid Postcode")
+                return false;
+            }
+            
+            var AddressnObj1 = {
+                PostCode: $('#PostCodeData').val(),
+                HouseNumber: $('#HouseNumberData').val()
+            };
+            console.log('Submitting form...');
+            console.log(AddressnObj1);
+
+            $.ajax({
+                url: "/Addresses/GetAddressFromAPI",
+                data: JSON.stringify(AddressnObj1),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+
+                    console.log(result);
+                    $('#PostCode').val(result.postCode);
+                    $('#HouseNumber').val(result.houseNumber);
+                    $('#Street').val(result.street);
+                    $('#City').val(result.city);
+                    $('#County').val(result.country);
+                    $('#Country').val(result.county);
+                    $('#Longitute').val(result.longitute);
+                    $('#Latitue').val(result.latitue);
+
+                    initMap(result.latitue, result.longitute);
+
+                    $("#divresult").show();
+                    $("#divdata").hide();
+
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+
+                }
+            });
+        }
+
+        var map;
+
+        function initMap(L, T) {
+
+            var longitute = T;
+            var latitude = L;
+            var myLatlng = new google.maps.LatLng(latitude, longitute);
+            var myOptions = {
+                zoom: 17,
+                center: myLatlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            map = new google.maps.Map(document.getElementById("gmap"), myOptions);
+            // marker refers to a global variable
+            marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map
+            });
+
+        }
+
+        function validate() {
+            var isValid = true;
+            if ($('#PostCodeData').val().trim() === "") {
+                $('#PostCodeData').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#PostCodeData').css('border-color', 'lightgrey');
+            }
+            if ($('#HouseNumberData').val().trim() === "") {
+                $('#HouseNumberData').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#HouseNumberData').css('border-color', 'lightgrey');
+            }
+            return isValid;
+        }
+    </script>
+}

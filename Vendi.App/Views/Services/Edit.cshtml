@@ -1,0 +1,71 @@
+﻿@model Vendi.App.Models.ServiceModelView
+
+
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Edit" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                    <input type="hidden" asp-for="ServiceId" />
+                 
+                    <input type="hidden" asp-for="ServiceRating" />
+                  
+
+                    <div class="form-group">
+                        <label asp-for="ServiceName">Service Name</label>
+                        <input asp-for="ServiceName" type="text" class="form-control" id="ServiceName" aria-describedby="ServiceName" placeholder="Service Name">
+                        <span asp-validation-for="ServiceName" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="Price">Price</label>
+                        <input asp-for="Price" type="number" class="form-control" id="Price" aria-describedby="Price" placeholder="Price">
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Category</label>
+                        @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.ServiceCategories, "ServiceCategoryId", "CategoryName"), new { @style = "width: 100%;" })
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description">Description</label>
+                        <textarea asp-for="Description" class="form-control" placeholder="Description" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input asp-for="Tags" class="form-control" aria-label="Sizing example input" type="text" data-role="tagsinput" aria-describedby="inputGroup-sizing-sm" placeholder="Add Tag" />
+                        <span asp-validation-for="Tags" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="IsFeatured" hidden /> 
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="IsImageUpdate" /> Do you want to change the Image
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn amado-btn mb-15">Next</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
+
+

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Vendi.Data.ServiceOffer>
+@{
+    ViewData["Title"] = "Pending Service Offers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <b style="font-size:x-large"><i class="fa fa-calendar"></i> My Appointments</b>
+                <br />
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Date)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Price)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Hours)
+                            </th>
+                             
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Date)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Hours)
+                                </td>
+                                
+                                <td>
+                                    
+                                    <a asp-action="MyWork" asp-controller="Services" asp-route-id="@item.ServiceId"><i style="color:#fbb710" class="fa fa-clock-o fa-4x"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 

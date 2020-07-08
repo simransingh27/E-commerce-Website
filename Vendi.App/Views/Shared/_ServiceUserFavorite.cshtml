@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Vendi.App.Models.ServiceFavoriteModelView>
+
+@{
+    ViewData["Title"] = "Service Favorite";
+
+}
+ 
+            <div class="col-md-12">
+
+                <table class="table table-hover">
+                    
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ServiceName)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreateDate)
+                                </td>
+
+                                <td>
+                                    <a onclick="DeleteFav(@item.ServiceFavoriteId)"><span class="fa fa-trash-o text-danger" style="font-size:36px;color:red"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function DeleteFav(id) {
+
+            var r = confirm("Are you sure to delete this Favorite Service.");
+            if (r) {
+                $.ajax({
+                    url: "/ServiceFavorites/DeleteServiceFaV/" + id,
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+
+                    success: function (result) {
+
+                        console.log(result);
+                        location.reload();
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage);
+
+                    }
+                });
+            }
+
+        }
+
+    </script>
+}

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Vendi.Data.Review>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/css/Commet/CommentCSS.css" rel="stylesheet" />
+ 
+
+<div class="comments">
+    @foreach (var item in Model)
+    {
+        <p>
+            <span>
+                <b>Rating: <span id=stars></span></b>
+                @{
+                    var num = item.Rating;
+                    for (var i = 0; i <= num; i++)
+                    {
+                        <i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>
+                    }
+                }
+            </span>
+            @item.Description
+            <span>in @item.CreateDate</span>
+
+        </p>
+
+
+
+
+    }
+
+</div>

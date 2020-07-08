@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Vendi.App.Models.ServiceOrderModelView>
+
+@{
+    ViewData["Title"] = " My Pending Service Payments";
+
+}
+
+
+<style>
+    .modal-backdrop {
+        top: 2px;
+        right: 5px;
+        bottom: 1px;
+        left: 1px;
+        z-index: 1030;
+        background-color: ghostwhite;
+        position: unset;
+    }
+</style>
+
+
+
+<div class="cart-table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-8 col-lg-12">
+                <div class="cart-title mt-50">
+                    <h5>
+                        <span class="fa fa-credit-card" style="font-size:36px;color:#fbb710"></span>
+                        My Pending Service Payments
+                    </h5>
+                </div>
+                <div class="cart-table clearfix">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Sevice Name</th>
+                                 
+                                <th>Total Amount</th>
+                                <th>Pay</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td >
+                                        <span> @item.ServiceName</span>
+                                    </td>
+                                     
+                                    <td >
+                                        <span>£ @item.TotalAmount</span>
+                                    </td>
+                                    <td>   
+                                        <a asp-action="ServiceMakePayment" asp-controller="Payment" asp-route-id="@item.ServiceOrderId" ><i style="color:#fbb710" class="fa fa-paypal fa-3x">ay</i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+   
+
+    }

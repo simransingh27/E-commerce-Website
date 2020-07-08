@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Vendi.App.Models.ServiceModelView>
+@{
+    ViewData["Title"] = "AdminIndex";
+    Layout = "~/Views/Shared/_CPLayout.cshtml";
+}
+
+
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="overview-wrap">
+                        <h2 class="title-1">Services</h2>                        
+                    </div>
+                </div>
+            </div>
+            <table class="table table-hover ">
+                <thead>
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.ImagePath)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ServiceName)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CategoryName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IsFeatured)
+                        </th>
+                        
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            <img src="@item.ImagePath" class="img-thumbnail" alt="Cinque Terre" width="150">
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ServiceName)
+                            
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CategoryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsFeatured)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ServiceId"><i style="color:#4272d7;" class="fa fa-edit fa-2x"></i></a> |
+                            <a asp-action="Details" asp-route-id="@item.ServiceId"><i style="color:#4272d7;" class="fa fa-info-circle fa-2x"></i></a> |
+                            <a onclick="DeleteCate(@item.ServiceId)"><i style="color:#4272d7;" class="fa fa-trash fa-2x"></i></a>
+
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function DeleteCate(id) {
+        var r = confirm("Are you sure to delete this Service .");
+        if (r) {
+            $.ajax({
+                url: "/DeleteService/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+                    console.log(result);
+                    location.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+                }
+            });
+        }
+        location.reload();
+    }
+</script>

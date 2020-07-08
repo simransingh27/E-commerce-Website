@@ -1,0 +1,100 @@
+﻿@model Vendi.App.Models.FavoritesModelView
+
+@{
+    ViewData["Title"] = "User Favorite";
+}
+
+
+
+
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+        <!-- Satrtt -->
+        <div class="row">
+            <div class="col-md-12">
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                Product
+                            </th>
+                            <th>
+                                CreateDate
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.FavoriteProduct)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreateDate)
+                                </td>
+                                <td>
+                                    <a onclick="DeleteFav(@item.FavoriteId)"><span class="fa fa-trash-o text-danger" style="font-size:36px;color:red"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                
+            </div>
+            
+            <partial name="_ServiceUserFavorite" model="Model.FavoriteService" />
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script>
+
+
+        function DeleteFav(id) {
+
+
+            var r = confirm("Are you sure to delete this Favorite Product.");
+            if (r) {
+
+
+                $.ajax({
+                    url: "/DeleteUserFaV/" + id,
+
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+
+                    success: function (result) {
+
+                        console.log(result);
+                        location.reload();
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage);
+
+                    }
+                });
+            }
+
+        }
+
+
+
+
+
+
+
+    </script>
+
+
+
+}

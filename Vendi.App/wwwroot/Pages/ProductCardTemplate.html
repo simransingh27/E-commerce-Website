@@ -1,0 +1,26 @@
+﻿{{#products}}
+<!-- Single Product Area -->
+
+<div class="single-product-wrapper">
+    <!-- Product Image -->
+    <div class="product-img">
+        <img src="{{image}}" alt="">
+        <!-- Hover Thumb -->
+
+    </div>
+
+    <!-- Product Description -->
+    <div class="product-description d-flex align-items-center justify-content-between">
+        <!-- Product Meta Data -->
+        <div class="product-meta-data">
+            <div class="line"></div>
+            <p class="product-price">£  {{price}}</p>
+            <a href="/Products/Details/{{productId}}">
+                <h6>{{productName}}</h6>
+            </a>
+        </div>
+        <div class="ratings-cart text-right">
+        </div>
+    </div>
+</div>
+{{/products}}

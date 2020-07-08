@@ -1,0 +1,11 @@
+C:\Users\44782\Source\Repos\bluulabs-uk\vendi\Vendi.Data\bin\Release\netstandard2.0\Vendi.Data.deps.json
+C:\Users\44782\Source\Repos\bluulabs-uk\vendi\Vendi.Data\bin\Release\netstandard2.0\Vendi.Data.dll
+C:\Users\44782\Source\Repos\bluulabs-uk\vendi\Vendi.Data\bin\Release\netstandard2.0\Vendi.Data.pdb
+C:\Users\44782\Source\Repos\bluulabs-uk\vendi\Vendi.Data\bin\Release\netstandard2.0\System.ComponentModel.Annotations.dll
+C:\Users\44782\Source\Repos\bluulabs-uk\vendi\Vendi.Data\bin\Release\netstandard2.0\System.ComponentModel.Annotations.xml
+C:\Users\44782\Source\Repos\bluulabs-uk\vendi\Vendi.Data\obj\Release\netstandard2.0\Vendi.Data.csproj.CoreCompileInputs.cache
+C:\Users\44782\Source\Repos\bluulabs-uk\vendi\Vendi.Data\obj\Release\netstandard2.0\Vendi.Data.AssemblyInfoInputs.cache
+C:\Users\44782\Source\Repos\bluulabs-uk\vendi\Vendi.Data\obj\Release\netstandard2.0\Vendi.Data.AssemblyInfo.cs
+C:\Users\44782\Source\Repos\bluulabs-uk\vendi\Vendi.Data\obj\Release\netstandard2.0\Vendi.Data.csproj.CopyComplete
+C:\Users\44782\Source\Repos\bluulabs-uk\vendi\Vendi.Data\obj\Release\netstandard2.0\Vendi.Data.dll
+C:\Users\44782\Source\Repos\bluulabs-uk\vendi\Vendi.Data\obj\Release\netstandard2.0\Vendi.Data.pdb

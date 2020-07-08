@@ -1,0 +1,210 @@
+﻿@model Vendi.App.Models.CheckOutModelView
+
+<div class="cart-table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="checkout_details_area mt-50 clearfix">
+
+                    <div class="cart-title">
+                        <h2>Checkout</h2>
+                    </div>
+
+                    <form action="#" method="post">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <input id="OrderId" value="@Model.OrderId" hidden/>
+                                <input type="text" class="form-control" id="first_name" value="@Model.FirstName" placeholder="First Name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <input type="text" class="form-control" id="last_name" value="@Model.LastName" placeholder="Last Name" required>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <input type="email" class="form-control" id="email" placeholder="Email" value="@Model.Email">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <input type="text" class="form-control mb-3" id="street_address" placeholder="Address" value="@Model.Street">
+                                <input id="counrty" value="@Model.Country" hidden/>
+                                <input id="county" value="@Model.County" hidden/>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <input type="text" class="form-control" id="city" placeholder="Town" value="@Model.City">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <input type="text" class="form-control" id="zipCode" placeholder="PostCode" value="@Model.PostCode">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <input type="number" class="form-control" id="phone_number" min="0" placeholder="Phone No" value="@Model.Mobile">
+                                <input id="total_order" value="@Model.TotalOrder" hidden/>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <textarea name="comment" class="form-control w-100" id="comment"  cols="30" rows="10" placeholder="Leave a comment about your order" required></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="cart-summary">
+                    <h5>Cart Total</h5>
+                    <ul class="summary-table">
+                        <li><span>total:</span> <span >£ @Model.TotalOrder</span></li>
+                        
+                    </ul>
+
+                    <div class="payment-method">
+                        <form>
+                            <!-- Cash on delivery -->
+                            <div class="custom-control custom-radio mr-sm-2">
+                                <input type="radio" name="payment" class="custom-control-input" id="cod" value="1" onclick="Cod();">
+                                <label class="custom-control-label" for="cod">Cash on Delivery</label>
+                            </div>
+                            <!-- Paypal -->
+                            <div class="custom-control custom-radio mr-sm-2">
+                                <input type="radio" name="payment" class="custom-control-input" id="paypal" value="2" onclick="Paypal();">
+                                <label class="custom-control-label" for="paypal">Paypal <img class="ml-15" src="~/Styles/img/core-img/paypal.png" alt=""></label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="cart-btn">
+                        <a onclick="PayProductByCash()" href="#" id="checkout-btn" class="btn amado-btn w-100">Checkout</a>
+
+                        <div id="paypal-button-container">
+                            <!--Car CheckOutByCard -->
+                            <form action="/complete" id="paymentForm" method="post">
+                                <!-- all other fields you want to collect, e.g. name and shipping address -->
+                                <div id='paymentSection'></div>
+                                <div>
+                                    <input type="button" class="btn amado-btn w-100" value="Place Order" onclick="Worldpay.submitTemplateForm()" />
+                                </div>
+                            </form>
+                            <!--ENds Card-->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ##### Main Content Wrapper End ##### -->
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function Cod() {
+             $("#checkout-btn").show();
+             $("#paypal-button-container").hide();
+        }
+        function Paypal() {
+            $("#checkout-btn").hide();
+            $("#paypal-button-container").show();
+        }
+        function PayProductByCash() {
+            // to create order , check the radio if cod create order or after payment done...
+            //Create order for cash start
+            var CheckoutObj = {
+                OrderId:$('#OrderId').val(),
+                Total: $('#total_order').val()            
+            };
+            console.log(CheckoutObj);
+            $.ajax({
+                url: "/Payment/PayProductByCash",
+                data: JSON.stringify(CheckoutObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    var id = result.msg;
+                    if (result.flag) {
+                        alert('Your Order Has Been Successfully ' + result.msg);
+                        url = "/Order/OrderConfirmation/" + id;
+                        $(location).attr("href", url);
+                    }
+                },
+                error: function (result) {
+                    alert(result.msg);
+                }
+            });
+            //Create order for cash Ends
+        }
+        $(document).ready(function () {
+
+            $("#paypal-button-container").hide();
+            $("#checkout-btn").hide();
+
+        });
+    </script>
+
+    <script src="https://cdn.worldpay.com/v1/worldpay.js"></script>
+
+    <script type='text/javascript'>
+        window.onload = function () {
+            Worldpay.useTemplateForm({
+                'clientKey': 'T_C_5941ca98-ea6b-4b50-9b5f-057548c97330',
+                'form': 'paymentForm',
+                'paymentSection': 'paymentSection',
+                'display': 'inline',
+                'reusable': true,
+                'callback': function (obj) {
+                    if (obj && obj.token) {
+                        // var _el = document.createElement('input');
+                        //  _el.value = obj.token;
+                        //  _el.type = 'hidden';
+                        //   _el.name = 'token';
+                        console.log('First Token');
+                        console.log(obj);
+                        //   document.getElementById('paymentForm').appendChild(_el);
+                        //   document.getElementById('paymentForm').submit();
+                        CardDateObj = {
+                            Token: obj.token,
+                            PaymentMethod: obj.paymentMethod,
+                            Reusable: obj.reusable,
+                            OrderId:$('#OrderId').val(),
+                            FirstName: $('#first_name').val(),
+                            LastName: $('#last_name').val(),
+                            Email: $('#email').val(),
+                            Country: $('#counrty').val(),
+                            County: $('#county').val(),
+                            Street: $('#street_address').val(),
+                            City: $('#city').val(),
+                            PostCode: $('#zipCode').val(),
+                            Mobile: $('#phone_number').val(),
+                            Comment: $('#comment').val(),
+                            TotalOrder: $('#total_order').val()
+                        };
+                        console.log('My Obj Token');
+                        console.log(CardDateObj);
+                        $.ajax({
+                            url: "/Payment/PayProductByCard",
+                            data: JSON.stringify(CardDateObj),
+                            type: "POST",
+                            contentType: "application/json;charset=utf-8",
+                            dataType: "json",
+                            success: function (result) {
+                                console.log(result);
+                                if (result.flag) {
+                                    var id = result.msg;
+                                    alert('Your Order Has Been Successfully ' + result.msg);
+                                    url = "/Order/OrderConfirmation/" + id;
+                                    $(location).attr("href", url);
+                                }
+                                else {
+                                    alert(result.msg);
+                                }
+                            },
+                            error: function (result) {
+                                alert(result.msg);
+                            }
+                        });
+
+                    }
+                }
+            });
+        }
+    </script>
+}

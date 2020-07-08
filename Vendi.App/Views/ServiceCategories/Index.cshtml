@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Vendi.Data.ServiceCategory>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<!-- Service Catagories Area Start -->
+<div class="products-catagories-area clearfix">
+    <div class="amado-pro-catagory clearfix">
+        @foreach (var item in Model)
+        {
+            <!-- Single Catagory -->
+            <div class="single-products-catagory clearfix">
+                <a href="/Services/GetServiceByCategory/@item.ServiceCategoryId">
+                    <img src="@item.ImagePath" alt="@item.CategoryName">
+                    <!-- Hover Content -->
+                    <div class="hover-content">
+                        <p>@item.CategoryName</p>
+                        <div class="line"></div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+

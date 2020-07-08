@@ -1,0 +1,122 @@
+﻿
+
+<link href="~/css/RatingStar/starrr.css" rel="stylesheet" />
+
+
+<div id="CustomerServiceReviewBox">
+    <hr />
+    <br />
+    <h5>  Your Reviews:</h5>
+    <span>
+        Rating:
+        <a class='starrr' id='star1'></a>
+    </span>
+    <p>
+        <input id="Rating" type="number" hidden="hidden" value="0" />
+        <textarea id="Description" style="border-radius: 0.2rem; width:100%;" placeholder="Write your review"></textarea>
+        <br />
+
+        <button type="button" id="btn_SubmitReview" name="btn_SubmitReview" onclick="SubmitServiceReview();" class="btn amado-btn">Submit</button>
+    </p>
+
+</div>
+<hr />
+
+
+<partial name="_ServiceReviews" model="Model.ServiceReviews" />
+
+
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/StarRating/starrr.js"></script>
+    <script>
+        $('#star1').starrr({
+            change: function (e, value) {
+                if (value) {
+                    $("#Rating").val(value);
+                }
+            }
+        });
+
+    </script>
+
+    <script>
+    $(document).ready(function () {
+        id = $('#ServiceId').val();
+        console.log('PID' + id);
+        $.ajax({
+            url: "/CheckCustomerServiceReview/"+id,
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                if (result.flag) {
+                    $('#CustomerServiceReviewBox').hide();
+                }
+
+            },
+            error: function (errormessage) {
+                alert(errormessage);
+            }
+        });
+    });
+
+        function SubmitServiceReview() {
+
+          
+        var ServiceReviewObj = {
+            Rating: $('#Rating').val(),
+            Description: $('#Description').val(),
+            ServiceId: @Model.ServiceId
+        };
+        console.log('Submitting form...');
+            console.log(ServiceReviewObj);
+
+        $.ajax({
+            url: "/ServiceReviews/SubmitServiceReview",
+            data: JSON.stringify(ServiceReviewObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+
+            success: function (result) {
+
+                console.log(result);
+
+                if (result.flag) {
+                    $('#CustomerServiceReviewBox').hide();
+                    location.reload();
+                }
+
+
+            },
+            error: function (errormessage) {
+                alert(errormessage);
+
+            }
+        });
+    }
+
+        function validate() {
+            var isValid = true;
+            /* if ($('#Rating').val().trim() === "") {
+                 $('#Rating').css('border-color', 'Red');
+                 isValid = false;
+             }
+             else {
+                 $('#Rating').css('border-color', 'lightgrey');
+             } */
+            if ($('#Description').val().trim() === "") {
+                $('#Description').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#Description').css('border-color', 'lightgrey');
+            }
+
+            return isValid;
+        }
+
+    </script>
+
+  

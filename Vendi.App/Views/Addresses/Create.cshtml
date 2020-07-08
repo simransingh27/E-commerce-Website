@@ -1,0 +1,246 @@
+﻿@model Vendi.Data.Address
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+<h4>Address</h4>
+<hr />
+<div class="row">
+
+    <div class="col-md-6" id="divdata">
+
+        <div class="form-group">
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Post Code</span>
+                </div>
+                <input id="PostCodeData" class="form-control" placeholder="Post Code" type="text" required aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">House Number</span>
+                </div>
+                <input id="HouseNumberData" class="form-control" placeholder="House Number" type="text" required aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="button" value="Get Address" onclick="GetAddress()" class="btn btn-primary btn-lg btn-block" />
+        </div>
+    </div>
+    <div class="col-md-6" id="divresult">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">PostCode</span>
+                    </div>
+                    <input asp-for="PostCode" class="form-control" placeholder="PostCode" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                    <span asp-validation-for="PostCode" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">HouseNumber</span>
+                    </div>
+                    <input asp-for="HouseNumber" class="form-control" placeholder="HouseNumber" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                    <span asp-validation-for="HouseNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Street</span>
+                    </div>
+                    <input asp-for="Street" class="form-control" placeholder="Street" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                    <span asp-validation-for="Street" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">City</span>
+                    </div>
+                    <input asp-for="City" class="form-control" placeholder="City" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">County</span>
+                    </div>
+                    <input asp-for="County" class="form-control" placeholder="County" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                    <span asp-validation-for="County" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Country</span>
+                    </div>
+                    <input asp-for="Country" class="form-control" placeholder="Country" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Longitute</span>
+                        </div>
+                        <input asp-for="Longitute" class="form-control" placeholder="Longitute" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" readonly="readonly" />
+                        <span asp-validation-for="Longitute" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Latitue</span>
+                        </div>
+                        <input asp-for="Latitue" class="form-control" placeholder="Latitue" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" readonly="readonly" />
+                        <span asp-validation-for="Latitue" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" id="btnCreate" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <div id="gmap" style="width:500px;height:350px;"></div>
+    </div>
+
+</div>
+<div class="row">
+    
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgwKVQLuu2WRfUGMyHehaSyO9jJ-ofDQQ&sensor=false"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#divresult").hide();
+
+
+        });
+        function GetAddress() {
+
+            var res = validate();
+            if (res === false) {
+                return false;
+            }
+
+            var AddressnObj = {
+                PostCode: $('#PostCodeData').val(),
+                HouseNumber: $('#HouseNumberData').val()
+            };
+            console.log('Submitting form...');
+            console.log(AddressnObj);
+
+            $.ajax({
+                url: "/GetAPIAddress",
+                data: JSON.stringify(AddressnObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+
+                    console.log(result);
+
+                    $('#PostCode').val(result.postCode);
+                    $('#HouseNumber').val(result.houseNumber);
+                    $('#Street').val(result.street);
+                    $('#City').val(result.city);
+                    $('#Country').val(result.country);
+                    $('#County').val(result.county);
+                    la = result.latitue;
+                    lo = result.longitute;
+                    $('#Latitue').val(la);
+                    $('#Longitute').val(lo);
+
+                    initMap(la, lo);
+
+                    $("#divresult").show();
+                    $("#divdata").hide();
+
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+
+                }
+            });
+        }
+
+
+        var map;
+
+        function initMap(L, T) {
+
+            var longitute = T;
+            var latitude = L;
+            var myLatlng = new google.maps.LatLng(latitude, longitute);
+            var myOptions = {
+                zoom: 17,
+                center: myLatlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            map = new google.maps.Map(document.getElementById("gmap"), myOptions);
+            // marker refers to a global variable
+            marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map
+            });
+
+        }
+
+
+
+        function validate() {
+            var isValid = true;
+            if ($('#PostCodeData').val().trim() === "") {
+                $('#PostCodeData').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#PostCodeData').css('border-color', 'lightgrey');
+            }
+            if ($('#HouseNumberData').val().trim() === "") {
+                $('#HouseNumberData').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#HouseNumberData').css('border-color', 'lightgrey');
+            }
+
+            return isValid;
+        }
+
+
+
+
+    </script>
+
+
+
+}

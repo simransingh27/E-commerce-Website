@@ -1,0 +1,104 @@
+﻿@model Vendi.Data.Service
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+
+        <!--Wizerd steps start-->
+
+        <div class="row relative-row bs-wizard" style="border-bottom:0;">
+
+            <div class="col-md-3 bs-wizard-step active ">
+                <div class="text-center bs-wizard-stepnum active">Create Service</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+            </div>
+
+            <div class="col-md-3 bs-wizard-step disabled ">
+                <!-- complete -->
+                <div class="text-center bs-wizard-stepnum ">Feature</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+
+            </div>
+            <div class="col-md-3 bs-wizard-step disabled ">
+                <!-- complete -->
+                <div class="text-center bs-wizard-stepnum ">Business Address</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+
+            </div>
+            <div class="col-md-3 bs-wizard-step disabled ">
+                <!-- complete -->
+                <div class="text-center bs-wizard-stepnum ">Image</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+
+            </div>
+        </div>
+    </div>
+    <!--Wizerd steps Ends-->
+
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="ServiceName">Service Name</label>
+                    <input asp-for="ServiceName" type="text" class="form-control" id="ServiceName" aria-describedby="ServiceName" placeholder="Service Name">
+                    <span asp-validation-for="ServiceName" class="text-danger"></span>
+                </div>
+
+                <input asp-for="UserId" class="form-control" hidden />
+
+                <div class="form-group">
+                    <label asp-for="Price">Price</label>
+                    <input asp-for="Price" type="number" class="form-control" id="Price" aria-describedby="Price" placeholder="Price">
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+                    @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.ServiceCategories, "ServiceCategoryId", "CategoryName"), new { @style = "width: 100%;" })
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description">Description</label>
+                    <textarea asp-for="Description" class="form-control" placeholder="Description" type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Tags" class="form-control" aria-label="Sizing example input" type="text" data-role="tagsinput" aria-describedby="inputGroup-sizing-sm" placeholder="Add Tag" />
+                    <span asp-validation-for="Tags" class="text-danger"></span>
+                </div>
+
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsFeatured" hidden />  
+                    </label>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn amado-btn mb-15">Next</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

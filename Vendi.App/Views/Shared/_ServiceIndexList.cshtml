@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Vendi.App.Models.ServiceModelView>
+
+
+<style>
+    .ServiceCard {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: 15px;
+        text-align: center;
+        font-family: arial;
+    }
+
+    .Servicetitle {
+        color: grey;
+        font-size: 18px;
+    }
+
+    .btn-Service {
+        border: none;
+        outline: 0;
+        display: inline-block;
+        padding: 8px;
+        color: white;
+        background-color: #fbb710;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+        margin-bottom: auto;
+    }
+
+        .btn-Service:hover {
+            background-color: black;
+        }
+</style>
+
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+
+
+        <div class="ServiceCard">
+            <img src="@item.ImagePath" alt="John" style="width:100%;height:135px">
+            <a href="/Services/Details/@item.ServiceId">  <h3>@item.CategoryName</h3></a>
+            <div class="Servicetitle">
+                <div class="row">
+                    <div class="col-md-6 ratings">
+
+                        @{
+                            var num = item.ServiceRating;
+                            if (num == 0)
+                            {
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            }
+                            var res = num - Math.Truncate(num);
+                            for (var i = 0; i < num; i++)
+                            {
+                                <i class="fa fa-star" style="color:gold;" aria-hidden="true"></i>
+                            }
+                            if (res != 0)
+                            {
+                                <i class="fa fa-star-half" style="color:gold;" aria-hidden="true"></i>
+                            }
+                        }
+
+
+                    </div>
+                    <div class="col-md-6">
+                        <i id="btn_Fav" onclick="AddToWishList(@item.ServiceId);" class="fa fa-thumbs-o-up  fa-2x" style="color:#eee;"></i>
+                    </div>
+                </div>
+            </div>
+
+
+            <button class="btn-Service">Offer</button>
+        </div>
+
+    }
+</div>

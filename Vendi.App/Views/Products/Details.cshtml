@@ -1,0 +1,250 @@
+﻿@model Vendi.App.Models.ProductModelView
+<!-- Product Details Area Start -->
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+        <!--hidden-->
+        <input asp-for="ProductId" type="text" value="@Model.ProductId" hidden />
+
+        <div class="row">
+            <div class="col-12 col-lg-7">
+                <!--Image here-->
+                <partial name="_LoadProductImage" model="Model.Images" />
+            </div>
+            <div class="col-12 col-lg-5">
+                <div class="single_product_desc">
+                    <!-- Product Meta Data -->
+                    <div class="product-meta-data">
+                        <div class="line"></div>
+                        <p class="product-price">£@Model.Price</p>
+
+                        <a><h6>@Model.ProductName</h6></a>
+
+                        <!-- Ratings & Review -->
+                        <div class="ratings-review mb-15 d-flex align-items-center justify-content-between">
+                            <div class="ratings">
+                                @{
+                                    var num = Model.ProductRating;
+                                    if (num == 0)
+                                    {
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    }
+                                    var res = num - Math.Truncate(num);
+                                    var inum = Math.Truncate(num);
+                                    for (var i = 0; i < inum; i++)
+                                    {
+                                        <i class="fa fa-star" style="color:gold;" aria-hidden="true"></i>
+                                    }
+                                    if (res != 0)
+                                    {
+                                        <i class="fa fa-star-half" style="color:gold;" aria-hidden="true"></i>
+                                    }
+                                }
+
+                            </div>                           
+                        </div>
+                        <!-- Avaiable -->
+                        <p class="avaibility" style="margin-bottom:10px;">
+                            @{
+                                var qty = Model.Quantity;
+                                if (qty == 0)
+                                {
+                                    <i class="fa fa-circle" style="color:red;"></i><b> Out of Stock</b>
+                                                                        }
+                                else
+                                {
+                                    <i class="fa fa-circle"> </i><b> @qty In Stock</b>
+                                                    }
+                            }
+
+                            <span>
+                                <br />
+                                <br />
+                                <b>Condition:</b>
+                                @{
+                                    var condition = Model.Condition;
+                                    if (condition == 1)
+                                    {
+                                        <b>New.</b>
+                                    }
+                                    else
+                                    {
+                                        <b> Used.</b>
+                                    }
+                                }
+                            </span>
+                            </b>
+</div>
+
+                    <div class="short_overview my-5">
+                        <p>@Model.Description</p>
+                    </div>
+                    
+                    <!-- Add to Cart Form -->
+                    <form class="cart clearfix" method="post">
+                        <div class="cart-btn d-flex mb-50">
+                            <p>Qty</p>
+                            <div class="quantity">
+                                <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
+                                <input type="number" class="qty-text" id="qty" step="1" min="1" max="@Model.Quantity" name="quantity" value="1">
+                                <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
+                            </div>
+                            <!--Add to fav list Start-->
+                            <a style="margin-left:80px;">
+                                <i id="btn_Fav" onclick="AddToWishList(@Model.ProductId);" class="fa fa-heart fa-heart fa-3x" style="color:#eee;"></i>
+                            </a>
+                            <!--Add to fav list End -->
+                        </div>
+
+                        <button type="submit" name="addtocart" id="btn-addCart"  value="Add to cart" onclick="AddToCart()" class="btn amado-btn">Add to cart</button>
+
+                    </form>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Tags -->
+    <div class="container-fluid">
+        <br/>
+        <hr />
+
+        Tags:
+        @{ string[] tages = Model.Tags.Split(',');
+            if (tages != null)
+            {
+                <ul class="tags">
+                    @foreach (var tag in tages)
+                    {
+                        <li><a href="#" class="tag">@tag</a></li>}
+                </ul>
+            }
+        }
+    </div>
+    <!-- REview and write -->
+    <div class="container-fluid">
+        <partial name="_SubmitReview" />
+    </div>
+</div>
+
+<!-- Product Details Area End -->
+<!-- MY Java script -->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+
+
+         if (@Model.Quantity== 0) {
+                document.getElementById("btn-addCart").disabled = true;
+           }
+
+
+
+            iid = $('#ProductId').val();
+            console.log(iid);
+            $.ajax({
+                url: "/Favorites/GetProductFavoriteCheck/" + iid,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var flag1 = result.flag;
+                    console.log(result);
+                    if (flag1) {
+                        document.getElementById("btn_Fav").style.color = "#fbb710";
+                    } else {
+
+                        document.getElementById("btn_Fav").style.color = "#eee";
+                    }
+                }
+            });
+
+
+           
+            $.ajax({
+                url: "/CheckCartTotal",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    $('#CartSpan').html('(' + result + ')');    
+                }
+            });
+
+
+        });
+
+
+        function AddToWishList(id) {
+
+            $.ajax({
+                url: "/Favorites/AddToProductWishList/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var flag = result.flag;
+                    if (flag) {
+                        document.getElementById("btn_Fav").style.color = "#eee";
+                    } else {
+                        document.getElementById("btn_Fav").style.color = "#fbb710";
+
+                    }
+                    console.log(result);
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+                }
+            });
+        }
+
+        //Carts
+
+        function AddToCart() {
+
+            if ($('#qty').val() > @Model.Quantity) {
+                 alert("quantiy exceeds.");
+                 return false;
+            }
+
+            var CartObj = {
+                ProductId: @Model.ProductId,
+                Quantity: $('#qty').val(),
+                Price: @Model.Price                
+            };
+
+            console.log('Submitting...');
+            console.log(CartObj);
+            $.ajax({
+                url: "/Cart/AddToCart",
+                data: JSON.stringify(CartObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (rqty) {
+                    console.log('qty');
+                    console.log(rqty);
+
+                    if ($('#qty').val() < @Model.Quantity) {
+                        $('#CartSpan').html('(' + rqty + ')');
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+                }
+            });
+        }
+            //Carts End
+
+         
+    </script>
+}

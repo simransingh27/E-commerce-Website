@@ -1,0 +1,104 @@
+﻿@model Vendi.Data.Review
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+<link href="~/css/RatingStar/starrr.css" rel="stylesheet" />
+
+<div class="container">
+    
+
+   
+    <div class='starrr' id='star1'></div>
+    <br/>
+    <div>       
+        <input asp-for="Rating" type="number" hidden="hidden" value="0"/>
+        <textarea asp-for="Description" style="border-radius: 1rem; width:100%;margin-top:10px; margin-bottom:10px;" placeholder="Write your review" ></textarea>
+        <br/>
+        <input type="button" id="btn_SubmitReview" onclick="SubmitReview()" class="btn btn-primary" value="Submit" />
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<script src="~/js/StarRating/starrr.js"></script>
+<script>
+    $('#star1').starrr({
+        change: function (e, value) {
+            if (value) {              
+                $("#Rating").val(value);
+            }  
+        }
+    });    
+</script>
+
+<script>
+    
+    function SubmitReview() {
+
+        var res = validate();
+        if (res === false) {
+            console.log('false Rating...')
+            return false;
+
+        }
+
+        var ReviewObj = {
+            Rating: $('#Rating').val(),
+            Description: $('#Description').val(),
+            Description: $('#ProductId').val()
+        };
+        console.log('Submitting form...');
+        console.log(ReviewObj);
+
+        $.ajax({
+            url: "/SubmitReview",
+            data: JSON.stringify(ReviewObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+
+            success: function (result) {
+
+                console.log(result);
+               
+
+            },
+            error: function (errormessage) {
+                alert(errormessage);
+
+            }
+        });
+    }
+
+    function validate() {
+        var isValid = true;
+       /* if ($('#Rating').val().trim() === "") {
+            $('#Rating').css('border-color', 'Red');
+            isValid = false;
+        }
+        else {
+            $('#Rating').css('border-color', 'lightgrey');
+        } */
+        if ($('#Description').val().trim() === "") {
+            $('#Description').css('border-color', 'Red');
+            isValid = false;
+        }
+        else {
+            $('#Description').css('border-color', 'lightgrey');
+        }
+
+        return isValid;
+    }
+
+</script>

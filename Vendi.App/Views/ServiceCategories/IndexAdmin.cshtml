@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Vendi.Data.ServiceCategory>
+
+ 
+@{
+    ViewData["Title"] = "Categories - Serives";
+    Layout = "~/Views/Shared/_CPLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="overview-wrap">
+                        <h2 class="title-1">Service Categories</h2>
+                         
+                        <a asp-action="Create" class="au-btn au-btn-icon au-btn--blue" align="Right">  <i class="zmdi zmdi-plus"></i>add Service Category</a>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-hover ">
+                <thead>
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.ImagePath)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CategoryName)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreateDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UpdateTime)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@item.ImagePath" class="img-thumbnail" alt="Cinque Terre" width="150">
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CategoryName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreateDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UpdateTime)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.ServiceCategoryId"><i style="color:#4272d7;" class="fa fa-edit fa-2x"></i></a> |
+                                <a asp-action="Details" asp-route-id="@item.ServiceCategoryId"><i style="color:#4272d7;" class="fa fa-info-circle fa-2x"></i></a> |
+                                <a onclick="DeleteCate(@item.ServiceCategoryId)"><i style="color:#4272d7;" class="fa fa-trash fa-2x"></i></a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function DeleteCate(id) {
+        var r = confirm("Are you sure to delete this Category .");
+        if (r) {
+            $.ajax({
+                url: "/DeleteSericesCategory/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+                    console.log(result);
+                    location.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+                }
+            });
+        }
+        location.reload();
+    }
+</script>

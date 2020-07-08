@@ -1,0 +1,161 @@
+﻿@model Vendi.App.Models.ServiceModelView
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .ServiceCard {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: 15px;
+        text-align: center;
+        font-family: arial;
+    }
+
+    .Servicetitle {
+        color: grey;
+        font-size: 18px;
+    }
+
+    .btn-Service {
+        border: none;
+        outline: 0;
+        display: inline-block;
+        padding: 8px;
+        color: white;
+        background-color: #fbb710;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+        margin-bottom: auto;
+    }
+
+        .btn-Service:hover {
+            background-color: black;
+        }
+
+    .modal-backdrop {
+        top: 2px;
+        right: 5px;
+        bottom: 1px;
+        left: 1px;
+        z-index: 1030;
+        background-color: ghostwhite;
+        position: unset;
+    }
+</style>
+
+
+
+
+
+<div class="amado_product_area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="product-topbar d-xl-flex align-items-end justify-content-between">
+                    <!-- Total Products -->
+                    <div class="total-products">
+                        <div class="view d-flex">
+                            <a href="/Services/ServiceMap"><i class="fa fa-map-marker"></i></a>
+                            <a href="/Services/Index"><i class="fa fa-th-large"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <input id="CategoryId" value="@Model.CategoryId" hidden  />
+            <!--Code-->
+            <div id="ServiceDataDiv"></div>
+            <div align="center" id="loader">
+                <img src="~/Image/Vendi/loading_icon.gif" width="50" height="50" />
+            </div>
+            <!--Code Ends-->
+
+        </div>
+
+
+
+
+
+    </div>
+</div>
+
+<!-- Service Details Area End -->
+<!-- MY Java script -->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script src="~/js/InfiniteScroll/mustache.js"></script>
+
+    <script>
+        $(document).ready(function () {
+          
+            var serviceCardTemplate,
+                isLoading = false,
+                pageNumber = 0,
+                serviceData = {
+                    services: []
+                };
+
+            function appendServiceData(data) {
+                $.get('/pages/ServiceCardTemplate.html',
+                    function (template) {
+                        console.log('Templ');
+                        console.log(template);
+                        serviceCardTemplate = template;
+                    }
+                );
+                $(document).ajaxStop(function () {
+                    var renderedPage = Mustache.to_html(serviceCardTemplate, data);
+                    $("#ServiceDataDiv").append(renderedPage);
+                    //the name of the temple{{Products}}
+                    data.servcies = [];
+                });
+            }
+            var mycategoryId = $("#CategoryId").val();
+            function getServiceData() {
+                if (!isLoading) {
+                    $("#loader").show();
+                    isLoading = true;
+                    pageNumber++;
+                    $.get("/Servcies/GetServices?pageSize=2&currentPage=" +
+                        pageNumber + "&id="+mycategoryId,
+                        function (data) {
+                            if (data != '') {
+                                console.log(data);
+                                serviceData.services = data.results;
+                                console.log('Results');
+                                console.log(serviceData.services);
+                                appendServiceData(serviceData);
+                            }
+                            isLoading = false;
+                            $("#loader").hide();
+                        });
+                }
+            };
+
+            $(window).scroll(function () {
+                if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                    getServiceData("", 1);
+                }
+            });
+
+            // Initialise page
+            var initPage = function () {
+                getServiceData("", 1);
+            }();
+        })
+    </script>
+
+}

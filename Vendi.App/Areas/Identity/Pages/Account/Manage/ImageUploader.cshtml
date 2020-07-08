@@ -1,0 +1,40 @@
+﻿@page
+@model ImageUploaderDataModel
+@{
+    ViewData["Title"] = "Image Uplader";
+    ViewData["ActivePage"] = ManageNavPages.ImageUploader;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="row">
+    <div class="col-md-6">
+        <partial name="_ImageViewer" for="ImagePath" />
+        <br />
+        <form method="post" enctype="multipart/form-data" asp-page="ImageUploaderDataModel" class="form-group">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <p>Upload one Image using this form:</p>
+                    <input type="file" name="files" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <br />
+                    <input type="submit" class="btn btn-primary" value="Upload" />
+                </div>
+            </div>
+        </form>
+ 
+
+    </div>
+
+    </div>
+
+
+  
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Vendi.Data.Brand>
+
+@{
+    ViewData["Title"] = "Brands";
+    Layout = "~/Views/Shared/_CPLayout.cshtml";
+}
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="overview-wrap">
+                        <h2 class="title-1">Brands</h2>
+                        <!-- Satrtt -->
+                        <a asp-action="Create" class="au-btn au-btn-icon au-btn--blue" align="Right">  <i class="zmdi zmdi-plus"></i>Add a Brand</a>
+                    </div>
+                </div>
+            </div>
+           <br/>
+            <table class="table table-hover ">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BrandName)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreateDate)
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BrandName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreateDate)
+                            </td>
+
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.BrandId"><i style="color:#4272d7;" class="fa fa-edit fa-2x"></i></a> |
+                                <a asp-action="Details" asp-route-id="@item.BrandId"><i style="color:#4272d7;" class="fa fa-info-circle fa-2x"></i></a> |
+                                <a onclick="DeleteBrand(@item.BrandId)"><i style="color:#4272d7;" class="fa fa-trash fa-2x"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function DeleteBrand(id) {
+        var r = confirm("Are you sure to delete this Product.");
+        if (r) {
+            $.ajax({
+                url: "/DeleteBrand/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+
+                    console.log(result);
+                    location.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+                }
+            });
+        }
+        location.reload();
+
+    }
+</script>

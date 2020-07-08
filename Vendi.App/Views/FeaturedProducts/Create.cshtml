@@ -1,0 +1,75 @@
+﻿@model Vendi.Data.FeaturedProduct
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+        <!--Wizerd steps start-->
+
+        <div class="row relative-row bs-wizard" style="border-bottom:0;">
+
+            <div class="col-md-4 bs-wizard-step complete ">
+                <div class="text-center bs-wizard-stepnum complete">Create Product</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+            </div>
+
+            <div class="col-md-4 bs-wizard-step active ">
+                <!-- complete -->
+                <div class="text-center bs-wizard-stepnum active ">Feature</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+
+            </div>
+
+            <div class="col-md-4 bs-wizard-step disabled ">
+                <!-- complete -->
+                <div class="text-center bs-wizard-stepnum ">Image</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a class="bs-wizard-dot"></a>
+
+            </div>
+        </div>
+    </div>
+    <!--Wizerd steps Ends-->
+    <!-- Start -->
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="ProductId" class="form-control" value="@Model.ProductId" hidden="hidden" />
+
+                <div class="form-group">
+                    <label asp-for="FeaturedFrom">From</label>
+                    <input asp-for="FeaturedFrom" type="date" class="form-control" id="FeaturedFrom" aria-describedby="FeaturedFrom" placeholder="FeaturedFrom">
+                    <span asp-validation-for="FeaturedFrom" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FeaturedTo">To</label>
+                    <input asp-for="FeaturedTo" type="date" class="form-control" id="FeaturedTo" aria-describedby="FeaturedTo" placeholder="FeaturedTo">
+                    <span asp-validation-for="FeaturedTo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" value="Create" class="btn amado-btn mb-15">Next</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- End-->
+</div>
+</div>
+
+
+
+
+

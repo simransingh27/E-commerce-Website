@@ -1,0 +1,43 @@
+﻿@model Vendi.Data.Ad
+
+@{
+    ViewData["Title"] = "Ads";
+    Layout = "~/Views/Shared/_CPLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="overview-wrap">
+                        <h2 class="title-1">Create</h2>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="col-md-12">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="AdsName">Name</label>
+                        <input asp-for="AdsName" type="text" class="form-control" id="AdsName" aria-describedby="AdsName" placeholder="Ads Name">
+                        <span asp-validation-for="AdsName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="AdsContent">Content</label>
+                        <textarea asp-for="AdsContent" type="text" class="form-control" id="AdsContent" aria-describedby="AdsContent" placeholder="Ads Content"></textarea>
+                        <span asp-validation-for="AdsContent" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="au-btn au-btn-icon au-btn--blue" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

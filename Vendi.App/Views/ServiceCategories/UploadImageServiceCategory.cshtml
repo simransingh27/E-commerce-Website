@@ -1,0 +1,70 @@
+﻿@model Vendi.Data.ServiceCategory
+
+@{
+    ViewData["Title"] = "Categories - Serives";
+    Layout = "~/Views/Shared/_CPLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="overview-wrap">
+                        <h2 class="title-1">Create Catergory Servies</h2>
+                    </div>
+                </div>
+            </div>
+
+            <link href="~/css/ImageUploaderCSS/basic.css" rel="stylesheet" />
+            <link href="~/css/ImageUploaderCSS/dropzone.css" rel="stylesheet" />
+
+            <script src="~/js/ImageUploaderJS/dropzone.js"></script>
+            <script src="~/js/ImageUploaderJS/dropzone-amd-module.js"></script>
+
+            <div class="single-product-area section-padding-100 clearfix">
+                <div class="container-fluid">
+                    <br/>
+                    <br/>
+                    <!-- Satrtt -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5>The Maximun Number Of Images is 1</h5>
+                            <form asp-action="UploadImageServiceCategory" asp-controller="ServiceCategories" class="dropzone" id="dropzoneJsForm">
+                                <input asp-for="ServiceCategoryId" hidden="hidden" value="@Model.ServiceCategoryId" />
+                            
+</form>
+                            <br />
+                            <button id="submit-all" type="submit" class="au-btn au-btn-icon au-btn--blue">Next</button>
+                            <a id="btn-done" class="au-btn au-btn-icon au-btn--blue" href="/ServiceCategories/Details/@Model.ServiceCategoryId">Done</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+            @section scripts {
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $("#btn-done").hide();
+                    });
+                    Dropzone.options.dropzoneJsForm = {
+                        //prevents Dropzone from uploading dropped files immediately
+                        autoProcessQueue: false,
+                        init: function () {
+                            var submitButton = document.querySelector("#submit-all");
+                            var myDropzone = this; //closure
+                            submitButton.addEventListener("click", function () {
+                                //tell Dropzone to process all queued files
+                                myDropzone.processQueue();
+                                $("#btn-done").show();
+                                $("#submit-all").hide();
+                            });
+                        }
+                    };
+                </script>
+            }
+

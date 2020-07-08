@@ -1,0 +1,53 @@
+﻿@model Vendi.App.Models.FeaturedProductsModelView
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+
+        <!-- Start -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <h4>Details</h4>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            <label>Product Name:</label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.ProductName)
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label>Featured From Date:</label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.FeaturedFrom)
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label>Featured To Date:</label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.FeaturedTo)
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label>Create Date:</label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.CreatedDate)
+                        </dd>
+
+
+                    </dl>
+                </div>
+                <div>
+
+                    <a asp-action="Edit" asp-route-id="@Model.FeatureId"><i style="color:#fbb710;" class="fa fa-edit fa-3x"></i></a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

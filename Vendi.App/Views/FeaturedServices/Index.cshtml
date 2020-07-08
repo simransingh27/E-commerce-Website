@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Vendi.App.Models.FeaturedServiceModelView>
+
+@{
+    ViewData["Title"] = "IndexAdmin";
+    Layout = "~/Views/Shared/_CPLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ServiceName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FeaturedFrom)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FeaturedTo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CreatedDate)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ServiceName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FeaturedFrom)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FeaturedTo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                                    </td>
+                                    <td>
+                                        
+                                        <a onclick="DeleteServiceFeature(@item.FeatureServiceId)"><i style="color:#4272d7;" class="fa fa-trash fa-2x"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function DeleteServiceFeature(id) {
+        var r = confirm("Are you sure to delete this Featured Service.");
+        if (r) {
+            $.ajax({
+                url: "/DeleteServiceFeature/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+                    console.log(result);
+                    location.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage);
+                }
+            });
+        }
+        location.reload();
+    }
+</script>
